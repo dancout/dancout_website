@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
+
+
 :host {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -73,6 +75,13 @@ p {
   background-size: cover;
   margin: auto;
   display: grid;
+}
+
+.filler {
+  width: 30%;
+  margin: auto 84px;
+  min-width: 276px;
+  color: white;
 }
 
 svg.material-icons {
@@ -272,9 +281,11 @@ svg#clouds {
   width: 1920px;
 }
 
+
 /* Responsive Styles */
 @media screen and (max-width: 767px) {
-  .card-container > *:not(.circle-link),
+
+  .card-container>*:not(.circle-link),
   .terminal {
     width: 100%;
   }
@@ -305,6 +316,7 @@ html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
