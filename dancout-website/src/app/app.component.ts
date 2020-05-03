@@ -6,7 +6,6 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { stat } from 'fs';
 
 /**
  * @title Table with expandable rows
