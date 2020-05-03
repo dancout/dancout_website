@@ -104,6 +104,7 @@ export class AppComponent implements OnInit {
     this.getDesignPic();
     this.getCoasterDecision();
     this.calculateCost();
+    this.expandedElement = this.ELEMENT_DATA[0];
   }
 
   scroll(id) {
