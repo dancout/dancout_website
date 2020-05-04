@@ -68,10 +68,10 @@ p {
 }
 
 .CovidCoastersContent {
-  height: calc(195px + 15vw);
+  height: calc(195px + 21vw);
   min-height: 100px;
-  max-height: 1000px;
-  background: url("https://www.w3schools.com/html/pic_trulli.jpg");
+  max-height: 2000px;
+  background: url("../src/assets/coasterForCovidCover.png");
   background-size: cover;
   margin: auto;
   display: grid;
