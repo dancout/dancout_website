@@ -1,0 +1,526 @@
+<div class="content" role="main">
+  <mat-tab-group style="width: 100%;">
+    <mat-tab label="COVID Coasters">
+      <div class="CovidCoastersContent">
+        <div class="filler"></div>
+        <div class="card-container">
+          <div class="card card-small" (click)="scroll('orderForm')">
+            <span>Request a set!</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="covidContent">
+        <!-- What's Happening -->
+        <h2>What's Happening</h2>
+        <p>
+          I'm making hand-made wooden coasters and selling them for charity.
+        </p>
+        <p>
+          Your purchase will pay for the cost of the materials, and make a
+          donation to the
+          <a target="_blank" href="https://www.nokidhungry.org/coronavirus"
+            >No Kid Hungry</a
+          >
+          organization.
+        </p>
+
+        <!-- Ordering Form -->
+        <h2 id="orderForm">Order Form</h2>
+        <p>Tap each section to see details</p>
+
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          multiTemplateDataRows
+          class="mat-elevation-z8"
+        >
+          <ng-container
+            matColumnDef="{{ column }}"
+            *ngFor="let column of columnsToDisplay"
+          >
+            <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+            <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+          </ng-container>
+
+          <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+          <ng-container matColumnDef="expandedDetail">
+            <td
+              mat-cell
+              *matCellDef="let element"
+              [attr.colspan]="columnsToDisplay.length"
+            >
+              <div
+                class="example-element-detail"
+                [@detailExpand]="
+                  element == expandedElement ? 'expanded' : 'collapsed'
+                "
+              >
+                {{ element.detail }}
+                <div class="example-element-diagram">
+                  <div class="exagmple-element-position">
+                    {{ element.position }}
+                  </div>
+                  <img src="{{ element.picURL }}" height="100%" />
+                  <!-- <div class="example-element-symbol">{{ element.symbol }}</div>
+                  <div class="example-element-name">{{ element.price }}</div>
+                  <div class="example-element-weight">{{ element.weight }}</div> -->
+                </div>
+
+                <!-- Wood Cost Section -->
+                <div
+                  class="expandDescription example-element-description"
+                  *ngIf="displayWoodCostSection(element.symbol)"
+                >
+                  <p>
+                    I'm using
+                    <a
+                      href="https://www.amazon.com/gp/product/B07DYBMFWJ/ref=ppx_yo_dt_b_asin_title_o01_s00?ie=UTF8&psc=1"
+                      target="_blank"
+                      >Black Walnut</a
+                    >
+                    for the dark colors, and
+                    <a
+                      target="_blank"
+                      href="https://www.amazon.com/gp/product/B07QT8RP85/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1"
+                      >Maple</a
+                    >
+                    for the light colors.
+                  </p>
+                  <p>Wood Cost: $26.45</p>
+                  <p>This will yield 7 sets of 4 coasters, each at ~1/4".</p>
+                  <p>$26.45 / 7 = $3.78</p>
+                </div>
+
+                <!-- Desing Selection Section -->
+                <div
+                  class="expandDescription example-element-description"
+                  *ngIf="displayDesignSelection(element.symbol)"
+                >
+                  <mat-form-field>
+                    <mat-label>Select an option</mat-label>
+                    <mat-select
+                      [(value)]="designSelection"
+                      (selectionChange)="getDesignPic()"
+                    >
+                      <mat-option value="Dark"
+                        >4 Dark w/ Light Accents</mat-option
+                      >
+                      <mat-option value="Light"
+                        >4 Light w/ Dark Accent</mat-option
+                      >
+                    </mat-select>
+                  </mat-form-field>
+
+                  <p *ngIf="lightSelected()" style="width: 300px;">
+                    Please note that this "Light" option has been built yet, so
+                    this picture is a rough guess of what it could look like.
+                    This example is scrap wood put together, unpolished, and a
+                    final product will be more "square".
+                  </p>
+                </div>
+
+                <!-- Coaster Stand Section -->
+                <div
+                  class="expandDescription example-element-description"
+                  *ngIf="displayStandSelection(element.symbol)"
+                >
+                  <p>
+                    For an additional $7, you can purchase a stand for your
+                    coaster set.
+                  </p>
+
+                  <p>
+                    I will be building these stands using scrapwood, at no
+                    additional charge for materials.
+                  </p>
+                  <p>
+                    This $7 will be an additional COVID Relief Donation, added
+                    onto the donation below.
+                  </p>
+
+                  <mat-radio-group
+                    class="example-radio-group"
+                    aria-label="Select an option"
+                    (change)="getCoasterDecision()"
+                    [(ngModel)]="coasterDecision"
+                  >
+                    <mat-radio-button value="Yes"
+                      >Yes, please!</mat-radio-button
+                    >
+                    <mat-radio-button value="No"
+                      >No, thank you.</mat-radio-button
+                    >
+                  </mat-radio-group>
+                </div>
+
+                <!-- COVID Relief Section -->
+                <div
+                  class="expandDescription example-element-description"
+                  *ngIf="displayCovidSection(element.symbol)"
+                >
+                  <p>
+                    Your donation will go to the
+                    <a
+                      target="_blank"
+                      href="https://www.nokidhungry.org/coronavirus"
+                      >No Kid Hungry</a
+                    >
+                    organization.
+                  </p>
+
+                  <mat-form-field appearance="fill">
+                    <mat-label>Donation</mat-label>
+
+                    <input
+                      type="number"
+                      matInput
+                      [(ngModel)]="donationCost"
+                      (blur)="checkDonation()"
+                      (keyup)="checkDonation()"
+                    />
+                  </mat-form-field>
+                  <div *ngIf="donationTooLow">
+                    <p style="color: red;">
+                      Please give a donation of at least $15.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Shipping Section -->
+                <div
+                  class="expandDescription example-element-description"
+                  *ngIf="displayShippingSection(element.symbol)"
+                >
+                  <p>
+                    Your package will be delivered via
+                    <a
+                      target="_blank"
+                      href="https://www.usps.com/ship/priority-mail.htm"
+                    >
+                      USPS Flat Rate Shipping</a
+                    >.
+                  </p>
+
+                  <mat-form-field appearance="fill">
+                    <mat-label>First Name</mat-label>
+                    <input type="text" matInput [(ngModel)]="firstName" />
+                  </mat-form-field>
+                  <br />
+
+                  <mat-form-field appearance="fill">
+                    <mat-label>Last Name</mat-label>
+                    <input type="text" matInput [(ngModel)]="lastName" />
+                  </mat-form-field>
+                  <br />
+
+                  <mat-form-field appearance="fill">
+                    <mat-label>Address Line 1</mat-label>
+                    <input type="text" matInput [(ngModel)]="addressLine1" />
+                  </mat-form-field>
+                  <br />
+
+                  <mat-form-field appearance="fill">
+                    <mat-label>Address Line 2</mat-label>
+                    <input type="text" matInput [(ngModel)]="addressLine2" />
+                  </mat-form-field>
+                  <br />
+
+                  <mat-form-field appearance="fill">
+                    <mat-label>City</mat-label>
+                    <input type="text" matInput [(ngModel)]="city" />
+                  </mat-form-field>
+                  <br />
+
+                  <mat-form-field appearance="fill">
+                    <mat-label>State</mat-label>
+                    <input type="text" matInput [(ngModel)]="state" />
+                  </mat-form-field>
+                  <br />
+
+                  <mat-form-field appearance="fill">
+                    <mat-label>Zip</mat-label>
+                    <input type="number" matInput [(ngModel)]="zip" />
+                  </mat-form-field>
+                </div>
+
+                <!-- Payment Information Section -->
+                <div
+                  class="expandDescription example-element-description"
+                  *ngIf="displayPaymentSection(element.symbol)"
+                >
+                  <mat-form-field appearance="fill">
+                    <mat-label>Venmo Account</mat-label>
+                    <input type="text" matInput [(ngModel)]="venmoAccount" />
+                  </mat-form-field>
+                  <p>
+                    Once your order is ready to ship, I will request payment via
+                    Venmo.
+                  </p>
+                </div>
+
+                <!-- Order Summary Section -->
+                <div
+                  class="expandDescription example-element-description"
+                  *ngIf="displayTotalSection(element.symbol)"
+                >
+                  <p>
+                    Your donation will help feed a child, and you'll get a nifty
+                    coaster set out of it!
+                  </p>
+                  <h3>Order Details</h3>
+                  <p>Design Selection: {{ designSelection }}</p>
+                  <p>Coaster Stand: {{ coasterDecision }}</p>
+                  <p *ngIf="donationTooLow" style="color: red;">
+                    You must provide a donation of at least $15.
+                  </p>
+                  <p *ngIf="!donationTooLow">
+                    Total Donation Amount: ${{ getTotalDonation() }}
+                  </p>
+                  <p *ngIf="!venmoAccount" style="color: red;">
+                    You must provide a venmo account for payment
+                  </p>
+                  <p *ngIf="venmoAccount">Venmo Account: {{ venmoAccount }}</p>
+
+                  <h3>Mailing Address</h3>
+                  <p *ngIf="firstName && lastName">
+                    Name: {{ firstName }} {{ lastName }}
+                  </p>
+                  <p *ngIf="addressLine1">Address Line 1: {{ addressLine1 }}</p>
+                  <p
+                    *ngIf="!addressLine1 || !city || !state || !state || !zip"
+                    style="color: red;"
+                  >
+                    You must provide complete mailing address information
+                  </p>
+                  <p *ngIf="addressLine2">Address Line 2: {{ addressLine2 }}</p>
+                  <p *ngIf="city">City: {{ city }}</p>
+                  <p *ngIf="state">State: {{ state }}</p>
+                  <p *ngIf="zip">Zip: {{ zip }}</p>
+                  <strong
+                    ><p>Total Cost: {{ ELEMENT_DATA[6].price }}</p></strong
+                  >
+                  <div class="card-container">
+                    <div *ngIf="checkAddressValidity()" class="card card-small">
+                      <span id="submitButton"><a></a></span>
+                    </div>
+                  </div>
+                  <p *ngIf="checkValidity()">
+                    This will open your mail app to request your order. Once you
+                    have submitted your email, you may exit this page.
+                  </p>
+
+                  <!-- <a href="mailto:dancout@umich.edu?subject=Coaster Request&body=Coaster Order Details:%0d%0aName: {{firstName}} {{ lastName }}%0d%0aAddress: asdfa">Order Now!</a> -->
+
+                  <div style="color: red;">
+                    <div
+                      *ngIf="!checkValidity()"
+                      class="card card-small"
+                      (click)="scroll('orderForm')"
+                    >
+                      <span>Complete form first</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="example-element-description">
+                  {{ element.description }}
+                </div> -->
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+          <tr
+            mat-row
+            *matRowDef="let element; columns: columnsToDisplay"
+            class="example-element-row"
+            [class.example-expanded-row]="expandedElement === element"
+            (click)="
+              expandedElement = expandedElement === element ? null : element
+            "
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: ['expandedDetail']"
+            class="example-detail-row"
+          ></tr>
+        </table>
+
+        <!-- Links -->
+        <div class="card-container">
+          <a
+            class="circle-link"
+            title="Animations"
+            href="https://angular.io/guide/animations"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg
+              id="Group_20"
+              data-name="Group 20"
+              xmlns="http://www.w3.org/2000/svg"
+              width="21.813"
+              height="23.453"
+              viewBox="0 0 21.813 23.453"
+            >
+              <path
+                id="Path_15"
+                data-name="Path 15"
+                d="M4099.584,972.736h0l-10.882,3.9,1.637,14.4,9.245,5.153,9.245-5.153,1.686-14.4Z"
+                transform="translate(-4088.702 -972.736)"
+                fill="#ffa726"
+              />
+              <path
+                id="Path_16"
+                data-name="Path 16"
+                d="M4181.516,972.736v23.453l9.245-5.153,1.686-14.4Z"
+                transform="translate(-4170.633 -972.736)"
+                fill="#fb8c00"
+              />
+              <path
+                id="Path_17"
+                data-name="Path 17"
+                d="M4137.529,1076.127l-7.7-3.723,4.417-2.721,7.753,3.723Z"
+                transform="translate(-4125.003 -1058.315)"
+                fill="#ffe0b2"
+              />
+              <path
+                id="Path_18"
+                data-name="Path 18"
+                d="M4137.529,1051.705l-7.7-3.723,4.417-2.721,7.753,3.723Z"
+                transform="translate(-4125.003 -1036.757)"
+                fill="#fff3e0"
+              />
+              <path
+                id="Path_19"
+                data-name="Path 19"
+                d="M4137.529,1027.283l-7.7-3.723,4.417-2.721,7.753,3.723Z"
+                transform="translate(-4125.003 -1015.199)"
+                fill="#fff"
+              />
+            </svg>
+          </a>
+
+          <a
+            class="circle-link"
+            title="CLI"
+            href="https://cli.angular.io/"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg
+              alt="Angular CLI Logo"
+              xmlns="http://www.w3.org/2000/svg"
+              width="21.762"
+              height="23.447"
+              viewBox="0 0 21.762 23.447"
+            >
+              <g id="Group_21" data-name="Group 21" transform="translate(0)">
+                <path
+                  id="Path_20"
+                  data-name="Path 20"
+                  d="M2660.313,313.618h0l-10.833,3.9,1.637,14.4,9.2,5.152,9.244-5.152,1.685-14.4Z"
+                  transform="translate(-2649.48 -313.618)"
+                  fill="#37474f"
+                />
+                <path
+                  id="Path_21"
+                  data-name="Path 21"
+                  d="M2741.883,313.618v23.447l9.244-5.152,1.685-14.4Z"
+                  transform="translate(-2731.05 -313.618)"
+                  fill="#263238"
+                />
+                <path
+                  id="Path_22"
+                  data-name="Path 22"
+                  d="M2692.293,379.169h11.724V368.618h-11.724Zm11.159-.6h-10.608v-9.345h10.621v9.345Z"
+                  transform="translate(-2687.274 -362.17)"
+                  fill="#fff"
+                />
+                <path
+                  id="Path_23"
+                  data-name="Path 23"
+                  d="M2709.331,393.688l.4.416,2.265-2.28-2.294-2.294-.4.4,1.893,1.893Z"
+                  transform="translate(-2702.289 -380.631)"
+                  fill="#fff"
+                />
+                <rect
+                  id="Rectangle_12"
+                  data-name="Rectangle 12"
+                  width="3.517"
+                  height="0.469"
+                  transform="translate(9.709 13.744)"
+                  fill="#fff"
+                />
+              </g>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+          Love Angular?&nbsp;
+          <a
+            href="https://github.com/angular/angular"
+            target="_blank"
+            rel="noopener"
+          >
+            Give our repo a star.
+            <div class="github-star-badge">
+              <svg
+                class="material-icons"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path
+                  d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                />
+              </svg>
+              Star
+            </div>
+          </a>
+          <a
+            href="https://github.com/angular/angular"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg
+              class="material-icons"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                fill="#1976d2"
+              />
+              <path d="M0 0h24v24H0z" fill="none" />
+            </svg>
+          </a>
+        </footer>
+
+        <svg
+          id="clouds"
+          alt="Gray Clouds Background"
+          xmlns="http://www.w3.org/2000/svg"
+          width="2611.084"
+          height="485.677"
+          viewBox="0 0 2611.084 485.677"
+        >
+          <path
+            id="Path_39"
+            data-name="Path 39"
+            d="M2379.709,863.793c10-93-77-171-168-149-52-114-225-105-264,15-75,3-140,59-152,133-30,2.83-66.725,9.829-93.5,26.25-26.771-16.421-63.5-23.42-93.5-26.25-12-74-77-130-152-133-39-120-212-129-264-15-54.084-13.075-106.753,9.173-138.488,48.9-31.734-39.726-84.4-61.974-138.487-48.9-52-114-225-105-264,15a162.027,162.027,0,0,0-103.147,43.044c-30.633-45.365-87.1-72.091-145.206-58.044-52-114-225-105-264,15-75,3-140,59-152,133-53,5-127,23-130,83-2,42,35,72,70,86,49,20,106,18,157,5a165.625,165.625,0,0,0,120,0c47,94,178,113,251,33,61.112,8.015,113.854-5.72,150.492-29.764a165.62,165.62,0,0,0,110.861-3.236c47,94,178,113,251,33,31.385,4.116,60.563,2.495,86.487-3.311,25.924,5.806,55.1,7.427,86.488,3.311,73,80,204,61,251-33a165.625,165.625,0,0,0,120,0c51,13,108,15,157-5a147.188,147.188,0,0,0,33.5-18.694,147.217,147.217,0,0,0,33.5,18.694c49,20,106,18,157,5a165.625,165.625,0,0,0,120,0c47,94,178,113,251,33C2446.709,1093.793,2554.709,922.793,2379.709,863.793Z"
+            transform="translate(142.69 -634.312)"
+            fill="#eee"
+          />
+        </svg>
+      </div>
+
+      <router-outlet></router-outlet> </mat-tab
+  ></mat-tab-group>
+</div>
