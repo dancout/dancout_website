@@ -23,6 +23,7 @@ h6 {
 
 p {
   margin: 0;
+  white-space: normal;
 }
 
 .spacer {
@@ -75,13 +76,6 @@ p {
   background-size: cover;
   margin: auto;
   display: grid;
-}
-
-.filler {
-  width: 30%;
-  margin: auto 84px;
-  min-width: 276px;
-  color: white;
 }
 
 svg.material-icons {
@@ -282,8 +276,67 @@ svg#clouds {
 }
 
 
+
+img {
+  height: 104px;
+}
+
+.detailWrapper {
+  display: flex;
+}
+
 /* Responsive Styles */
 @media screen and (max-width: 767px) {
+  .detailWrapper {
+    display: block;
+  }
+
+  .expandDescription {
+    display: grid;
+    justify-content: center;
+    justify-items: center;
+  }
+
+  .example-element-diagram {
+    width: 50%;
+    display: contents;
+  }
+
+  .imgContainer {
+    justify-items: center;
+    display: grid;
+  }
+
+  .p {
+    word-break: break-word;
+    white-space: normal;
+  }
+
+  table {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  th,
+  td {
+    overflow: hidden;
+    width: 100px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+
+  th.mat-header-cell:last-of-type,
+  td.mat-cell:last-of-type,
+  td.mat-footer-cell:last-of-type {
+    width: 10px;
+  }
+
+  .covidContent {
+    display: block;
+    padding: 24px;
+  }
+
 
   .card-container>*:not(.circle-link),
   .terminal {
