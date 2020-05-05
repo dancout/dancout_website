@@ -289,6 +289,10 @@ img {
   display: flex;
 }
 
+.shippingSection {
+  display: grid;
+}
+
 /* Responsive Styles */
 @media screen and (max-width: 767px) {
   .detailWrapper {

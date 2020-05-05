@@ -196,7 +196,7 @@
 
                     <!-- Shipping Section -->
                     <div
-                      class="expandDescription example-element-description"
+                      class="expandDescription example-element-description shippingSection"
                       *ngIf="displayShippingSection(element.symbol)"
                     >
                       <p>
@@ -213,13 +213,11 @@
                         <mat-label>First Name</mat-label>
                         <input type="text" matInput [(ngModel)]="firstName" />
                       </mat-form-field>
-                      <br />
 
                       <mat-form-field appearance="fill">
                         <mat-label>Last Name</mat-label>
                         <input type="text" matInput [(ngModel)]="lastName" />
                       </mat-form-field>
-                      <br />
 
                       <mat-form-field appearance="fill">
                         <mat-label>Address Line 1</mat-label>
@@ -229,7 +227,6 @@
                           [(ngModel)]="addressLine1"
                         />
                       </mat-form-field>
-                      <br />
 
                       <mat-form-field appearance="fill">
                         <mat-label>Address Line 2</mat-label>
@@ -239,19 +236,16 @@
                           [(ngModel)]="addressLine2"
                         />
                       </mat-form-field>
-                      <br />
 
                       <mat-form-field appearance="fill">
                         <mat-label>City</mat-label>
                         <input type="text" matInput [(ngModel)]="city" />
                       </mat-form-field>
-                      <br />
 
                       <mat-form-field appearance="fill">
                         <mat-label>State</mat-label>
                         <input type="text" matInput [(ngModel)]="state" />
                       </mat-form-field>
-                      <br />
 
                       <mat-form-field appearance="fill">
                         <mat-label>Zip</mat-label>
