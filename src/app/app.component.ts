@@ -151,6 +151,12 @@ export class AppComponent implements OnInit {
     return this.designSelection === 'Light';
   }
 
+  displayArrow(text: string) {
+    return (
+      !(text.includes('$') || text.includes('--')) || text.includes('COVID')
+    );
+  }
+
   checkDonation() {
     if (this.donationCost < 15) {
       this.donationTooLow = true;
