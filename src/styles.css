@@ -275,6 +275,10 @@ svg#clouds {
   width: 1920px;
 }
 
+.designText {
+  width: 100%;
+  max-width: 500px;
+}
 
 
 img {
@@ -289,6 +293,10 @@ img {
 @media screen and (max-width: 767px) {
   .detailWrapper {
     display: block;
+  }
+
+  .designText {
+    width: 100%;
   }
 
   .expandDescription {

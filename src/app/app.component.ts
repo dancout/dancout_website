@@ -154,11 +154,18 @@ export class AppComponent implements OnInit {
   checkDonation() {
     if (this.donationCost < 15) {
       this.donationTooLow = true;
-      this.ELEMENT_DATA[3].price =
-        '$' + this.donationCost.toString() + ' -- Too Low :(';
+      if (window.innerWidth > 656) {
+        this.ELEMENT_DATA[3].item = 'COVID19 Relief Donation';
+        this.ELEMENT_DATA[3].price =
+          '$' + this.donationCost.toString() + ' -- Too Low :(';
+      } else {
+        this.ELEMENT_DATA[3].item = 'COVID19 Relief Donation -- Too Low :(';
+        this.ELEMENT_DATA[3].price = '$' + this.donationCost.toString();
+      }
     } else {
       this.donationTooLow = false;
       this.ELEMENT_DATA[3].price = '$' + this.donationCost.toString();
+      this.ELEMENT_DATA[3].item = 'COVID19 Relief Donation';
     }
     this.calculateCost();
   }

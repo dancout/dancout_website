@@ -3,6 +3,8 @@
     <mat-tab label="COVID Coasters">
       <div class="CovidCoastersContent">
         <div class="filler"></div>
+        <div class="filler"></div>
+        <div class="filler"></div>
         <div class="card-container">
           <div class="card card-small" (click)="scroll('orderForm')">
             <span>Request a set!</span>
@@ -117,7 +119,7 @@
                         </mat-select>
                       </mat-form-field>
 
-                      <p *ngIf="lightSelected()" style="width: 300px;">
+                      <p *ngIf="lightSelected()" class="designText">
                         Please note that this "Light" option has been built yet,
                         so this picture is a rough guess of what it could look
                         like. This example is scrap wood put together,
