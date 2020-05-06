@@ -78,6 +78,7 @@ p {
   background-size: cover;
   margin: auto;
   display: grid;
+  width: 100%;
 }
 
 svg.material-icons {
@@ -346,6 +347,10 @@ img {
     width: 10px;
   }
 
+  .bodyWrapper {
+    overflow: hidden;
+  }
+
   .covidContent {
     display: block;
     padding: 24px;
@@ -354,7 +359,7 @@ img {
 
   .card-container>*:not(.circle-link),
   .terminal {
-    width: 100%;
+    /* width: 100%; */
   }
 
   .card:not(.highlight-card) {
