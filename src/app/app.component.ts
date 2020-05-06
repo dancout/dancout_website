@@ -165,7 +165,7 @@ export class AppComponent implements OnInit {
         this.ELEMENT_DATA[3].price =
           '$' + this.donationCost.toString() + ' -- Too Low :(';
       } else {
-        this.ELEMENT_DATA[3].item = 'COVID19 Relief Donation -- Too Low :(';
+        this.ELEMENT_DATA[3].item = 'Donation Too Low :(';
         this.ELEMENT_DATA[3].price = '$' + this.donationCost.toString();
       }
     } else {
