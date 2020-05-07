@@ -45,8 +45,7 @@ export class AppComponent implements OnInit {
       item: 'Coaster Stand',
       price: '$7',
       symbol: 'stand',
-      picURL:
-        'https://lh3.googleusercontent.com/H6gEQNHn3DXfIqyaxpM3HlHF3HEbS2ZPeA_fJKjsJYiI2629T4oum5pOTOsL2HP1In2c3DUripWEeOAaeKVw7DHJAkeWnooMn2wFQ9WoL6tj251ersP2YK1cPRrrqdr0ClzxiOfx27M58KqM4-Ynln17Vb_TvCVR1gHrohu5xANi4gmqyiLCP6hMk_vkUggCopDcPxAjYe5pwoPPikCj38tMf2Qt1iwZFt_dS-pGLF1JQa4QPPmmv1Zp4mSMV_IDpUTC28_M905kSwl58qOXKk7V2al2GzfrtMwBrgCk3h7u_a0G2ri1IHWWplky6L8jG0SQKUkCH99URdFO1zqEzMsuqBRtuLs5nwpwaZpMu_-ZRQPTXAYhUHCe5Q4rwC4TUgiVhdph0yfDYUzuBA8z0nbVRFqGBZsMMQGl5HqsYPz4emb4vKsamjFi2ttcckiAYssPK1QXNK0Ak9UAgxOrRAiu7Qtnkm9890E4GQl04XOsgjS_jf94KZGJEJFiK9rV8bBx0KF6jdm0auGE2JdDcMybUyvKRqYa-5Sc16OD0l2_7iLbxknkWr8IVpw077QSAAjPkVHvDcAnYYf-T_biswab7lvYr3hVES9VY15-5jz-XbkSEBVVCJiWseklpT9VjrnXLJk9reNdvdXySdBcRHhK5gzluo9NyMZi5glhnG_qibuDC2QIPUfcBY8_wg=w1155-h951-no',
+      picURL: '/assets/coasterStand.jpg',
     },
 
     {
@@ -74,8 +73,7 @@ export class AppComponent implements OnInit {
       item: 'Order Summary',
       price: '$30',
       symbol: 'total',
-      picURL:
-        'https://lh3.googleusercontent.com/IkHNS8Wyr_UYHc15oXFkxeeo84Gy6-IuWnRDgF3E0_DWiOACU9JQHhIg_45m46p2pkJio9ovDtoHQ9X4rKNXIXklh2bOWMG6UUcOy_Cpbpz1KICN3oFZbfelpW-tlmh9KxJqYkRowEjDafGmMbEUllVavP-KsstUD0dZluYK3qCHx2YyWUqUIygLaRESAgBiNXjQtfjSDyY4x0twQ6AyXDTgSCdYIHRqV7bzCsAj0WYoqTqJx47kARwlImleOzA5dTbzvoAQIsdK9yCtCsJ7g9V8omoyc7dtRrl-UJS0App5P1a4COYNv4rQOqo0s5nGFtlrDjUjdUoLNnz896txUBN5c4dL8KKdms0_xAXRdHEH9yg21R3PTxjIHVdVGR48t2vUil0AmFVSmwQfX53oUfC19dtQqomPj1YntWCQoesgrOyWcQh5r8_W3F056pbkAYKop28G3Sf_q17l8nSGajK5hW1yzHvixv9seBIhLHNPoltuMwbPB3jkeQh_TR8oZBlmQmuiqtSXVB3OLhjrGs1fUBAE02jn6sLpSUEzdxNkM-AghjuoatBsUm3zZjh6Xu12rB__zHIiJ4we0Et8S4V94uyZHLDryk6umHDNCoAkC3V0Yu8ZQKfFJOtCLiAOgECbteQ68Sz-s3-3iem3uTrdWdOTybNYVOHYfnbzKhmcfVDG4KtY_67dp5vG6Q=w714-h951-no',
+      picURL: '/assets/bandit.jpg',
     },
   ];
 
@@ -153,14 +151,27 @@ export class AppComponent implements OnInit {
     return this.designSelection === 'Light';
   }
 
+  displayArrow(text: string) {
+    return (
+      !(text.includes('$') || text.includes('--')) || text.includes('COVID')
+    );
+  }
+
   checkDonation() {
     if (this.donationCost < 15) {
       this.donationTooLow = true;
-      this.ELEMENT_DATA[3].price =
-        '$' + this.donationCost.toString() + ' -- Too Low :(';
+      if (window.innerWidth > 656) {
+        this.ELEMENT_DATA[3].item = 'COVID19 Relief Donation';
+        this.ELEMENT_DATA[3].price =
+          '$' + this.donationCost.toString() + ' -- Too Low :(';
+      } else {
+        this.ELEMENT_DATA[3].item = 'Donation Too Low :(';
+        this.ELEMENT_DATA[3].price = '$' + this.donationCost.toString();
+      }
     } else {
       this.donationTooLow = false;
       this.ELEMENT_DATA[3].price = '$' + this.donationCost.toString();
+      this.ELEMENT_DATA[3].item = 'COVID19 Relief Donation';
     }
     this.calculateCost();
   }
@@ -180,11 +191,9 @@ export class AppComponent implements OnInit {
 
   getDesignPic() {
     if (this.designSelection === 'Dark') {
-      this.ELEMENT_DATA[1].picURL =
-        'https://lh3.googleusercontent.com/VHCCqifMXwb74d5WvR7o2unP_pHg3ofZ5cxH3Z2MJr7wemy4_H298EX68ex8rqGYyE39Z27aoeBUq1Ol0Y0pRpvB6iR2KzCxHkpzVKLk6qRKl1wyYTkgATBKZatfmXRNvXMPQ5_wmQdRIFL2sXQVtPSm7dT0R0VW-zPwIwGjS3cQ5J7byGnps_bXgz5XWdJXePpAfYYNoJ3gsorp0wFVYR3fFq6G3nvtb2wpLPUsPBEdvJNvax5kVXdxrV3QGOQsw6uX9B-f1b0cllel9Cdkie4buN0wLBaEwpDQdBxystNDHabNlJrZxHfZx1GrWTzLxvsIzWFkFMXfeZfcvpnSexVEvJqhQrbeqloYrzlhhvVA1PpC5fnJDY45xWa0z9kAh__fMR7fsyAlm5BchxrfCgsCdYQOBPz7dkdV7J8_SA6nDNZJLo5I4Ro1QiqaSB1ti4G1lHpfhIOC-osxYb_U0s1_9KwV4tuC3z4idwo_L49T44A-GWC5g9xK7KDte5iVV2KVDGWCDvPUefRkycPv7pvIXDxUhW9kFPeqZdSwEgo4QhntsTp_i0qcjdY8vbcrd3JRxyZGhxiziYioABkzQJOEapcqpBpperOZZrkiMuwDhZBfkUS5RaZwmhbOASLvRcWKU45VCoIVkxkCMXAprh_s2Qjy2kNa6naHRSA4GL8q-SRazhsbG3ivh3tXmg=w1000-h951-no';
+      this.ELEMENT_DATA[1].picURL = '/assets/Dark.jpg';
     } else if (this.designSelection === 'Light') {
-      this.ELEMENT_DATA[1].picURL =
-        'https://lh3.googleusercontent.com/4GaXLPjukDOvQ9gN2Wmwcx9gpkp4rrdLk-6Kky7TWBpah3Gq8FspkSRYQWGLyXSj4TB8_DSryB9UGNDBVeDxHnc2e22V7ZEUU615wL7TresRy_bN5en4S_DZNb6hEqhQkQ1h8JD_EHa0sNXg-UR3PxbaAi9AL-JtK6ougO_DIKvFvJX4nvfRsOG4NK9BYTK4Dbe8d6Du-xlQ30lS_8rZNXFNLFx4IZ4ZQ_u5Z6t5mV5evHF_2jTd9HmSz93OECYUZgFDj-Jmu5f1gDDmfONNRXfl6-cyjSscJwC13xNPkvGstngomZsUYjXNZgk09khOYQK2BlG34kqC8Z3iXXsGRy_8R7rD7CrPUBUQxHvNkVA7mmQblAU_iBVvIuJed7NUJmDGQgF6pfjwX-kmS18uscHyfefWqUn2dMOsIcfUr0Iq3eZRMGKQz0WsFdv9t3oBjklNI3P374FdgOTFKdtqLkM-LXjFLX-PLHJ7ZfKXrgz9BNmMe17b7SfyPBpBccRHbY1r1yu_EITpsyfXCSDgEjb5Ba0oHLNJ767H3e53mBm6VrBBYi5p7ewDHt-BKYM5Uack_vervJCj5eiS0MYXAn6_1Yu5JGuNtMr0zw1zc2L8ECGHIjbrb5teEcARdTnMHsCc9tg2TqYUbhR5F5dhZ6QAzy83sSLaAZrUYXu4Izkb_U2Pe5c9lXSd4Pj-6Q=w1277-h951-no';
+      this.ELEMENT_DATA[1].picURL = '/assets/Light.jpg';
     }
 
     this.ELEMENT_DATA[1].item =
