@@ -373,6 +373,10 @@ section {
   width: 120px;
 }
 
+.whatsHappening {
+  padding-top: 10px;
+}
+
 /* Responsive Styles */
 
 @media screen and (max-width: 896px) {
@@ -390,11 +394,19 @@ section {
   .couchWrapper {
     display: contents;
   }
+
+  .covidContent {
+    padding: 24px;
+  }
 }
 
 @media screen and (max-width: 767px) {
   .shrinkImg {
     height: 224px;
+  }
+
+  .whatsHappening {
+    padding-top: 0px;
   }
 
   .detailWrapper {
