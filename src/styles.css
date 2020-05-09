@@ -406,6 +406,10 @@ section {
     height: 224px;
   }
 
+  .shrinkWandriSite {
+    height: 185px;
+  }
+
   .mat-tab-label {
     padding-left: 14px !important;
     padding-right: 14px !important;
