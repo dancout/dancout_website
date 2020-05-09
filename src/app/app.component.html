@@ -17,13 +17,13 @@
     <h2 style="text-align: center;">What's Happening</h2>
     <div class="happeningClass">
       <p class="upperPtag">
-        I'm making hand-made wooden coasters and selling them for charity.
+        COVID19 is affecting each of us in different ways. There are children
+        all around the country who rely on school lunches, and due to this
+        pandemic, they don't have access to these regular meals.
         <br />
         <br />
 
-        COVID19 is affecting each of us in different ways. There are children
-        all around the country who rely on school lunches for meals, and due to
-        this pandemic, they don't have access to these regular meals.
+        I'm making hand-made wooden coasters and selling them for charity.
         <br />
         <br />
 
@@ -47,7 +47,7 @@
 
     <!-- Ordering Form -->
     <h2 id="orderForm" style="text-align: center;">Order Form</h2>
-    <p>Tap each section to see details</p>
+    <p>Tap each section to view details</p>
     <div class="tableClass">
       <table
         mat-table
@@ -322,19 +322,19 @@
 
                   <h3>Mailing Address</h3>
                   <p *ngIf="firstName && lastName">
-                    Name: {{ firstName }} {{ lastName }}
+                    {{ firstName }} {{ lastName }}
                   </p>
-                  <p *ngIf="addressLine1">Address Line 1: {{ addressLine1 }}</p>
+                  <p *ngIf="addressLine1">{{ addressLine1 }}</p>
                   <p
                     *ngIf="!addressLine1 || !city || !state || !state || !zip"
                     style="color: red;"
                   >
                     You must provide complete mailing address information
                   </p>
-                  <p *ngIf="addressLine2">Address Line 2: {{ addressLine2 }}</p>
-                  <p *ngIf="city">City: {{ city }}</p>
-                  <p *ngIf="state">State: {{ state }}</p>
-                  <p *ngIf="zip">Zip: {{ zip }}</p>
+                  <p *ngIf="addressLine2">{{ addressLine2 }}</p>
+                  <p *ngIf="city">{{ city }}</p>
+                  <p *ngIf="state">{{ state }}</p>
+                  <p *ngIf="zip">{{ zip }}</p>
                   <strong
                     ><p>Total Cost: {{ ELEMENT_DATA[6].price }}</p></strong
                   >
@@ -344,11 +344,10 @@
                     </div>
                   </div>
                   <p *ngIf="checkValidity()">
-                    This will open your mail app to request your order. Once you
-                    have submitted your email, you may exit this page.
+                    This will open your mail app to request your order to me.
+                    Once you have submitted your email, you may safely exit this
+                    page.
                   </p>
-
-                  <!-- <a href="mailto:dancout@umich.edu?subject=Coaster Request&body=Coaster Order Details:%0d%0aName: {{firstName}} {{ lastName }}%0d%0aAddress: asdfa">Order Now!</a> -->
 
                   <div style="color: red;">
                     <div
@@ -360,9 +359,6 @@
                     </div>
                   </div>
                 </div>
-                <!-- <div class="example-element-description">
-                  {{ element.description }}
-                </div> -->
               </div>
             </div>
           </td>

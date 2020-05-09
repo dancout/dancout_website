@@ -234,7 +234,7 @@ export class AppComponent implements OnInit {
     let secondLine = '';
     this.addressLine2 ? (secondLine = this.addressLine2 + '%0d%0a') : '';
     el.innerHTML =
-      '<a href="mailto:dancout@umich.edu?subject=Charity Coaster Request&body=Charity Coaster Order Details:%0d%0aName: ' +
+      '<a href="mailto:dancout@umich.edu?subject=Charity Coaster Request&body=Charity Coaster Order Details:%0d%0a%0d%0aName: ' +
       this.firstName +
       ' ' +
       this.lastName +
@@ -266,7 +266,7 @@ export class AppComponent implements OnInit {
       '%0d%0a' +
       'Total Cost: $' +
       this.totalCost +
-      '">Order Now!</a>';
+      '%0d%0a%0d%0a">Order Now!</a>';
   }
 }
 
