@@ -3,7 +3,6 @@
 /* TODO: Fix this angular import for themes */
 /* @import '~@angular/material/prebuilt-themes/deeppurple-amber.css'; */
 
-
 :host {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -301,7 +300,6 @@ svg#clouds {
   max-width: 500px;
 }
 
-
 img {
   height: 104px;
 }
@@ -320,6 +318,10 @@ img {
   margin: auto !important;
 }
 
+.whatsHappening {
+  padding-top: 10px;
+}
+
 /* Responsive Styles */
 
 @media screen and (max-width: 896px) {
@@ -333,9 +335,17 @@ img {
   .secondImg {
     display: none;
   }
+
+  .covidContent {
+    padding: 24px;
+  }
 }
 
 @media screen and (max-width: 767px) {
+  .whatsHappening {
+    padding-top: 0px;
+  }
+
   .detailWrapper {
     display: block;
   }
@@ -378,7 +388,6 @@ img {
     white-space: nowrap;
   }
 
-
   th.mat-header-cell:last-of-type,
   td.mat-cell:last-of-type,
   td.mat-footer-cell:last-of-type {
@@ -394,8 +403,7 @@ img {
     padding: 24px;
   }
 
-
-  .card-container>*:not(.circle-link),
+  .card-container > *:not(.circle-link),
   .terminal {
     /* width: 100%; */
   }
