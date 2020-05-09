@@ -151,6 +151,10 @@ export class AppComponent implements OnInit {
     return this.designSelection === 'Light';
   }
 
+  popSelected() {
+    return this.designSelection === 'Pop';
+  }
+
   displayArrow(text: string) {
     return (
       !(text.includes('$') || text.includes('--')) || text.includes('COVID')
@@ -194,6 +198,8 @@ export class AppComponent implements OnInit {
       this.ELEMENT_DATA[1].picURL = '/assets/Dark.jpg';
     } else if (this.designSelection === 'Light') {
       this.ELEMENT_DATA[1].picURL = '/assets/Light.jpg';
+    } else if (this.designSelection === 'Pop') {
+      this.ELEMENT_DATA[1].picURL = '/assets/popOfColor.jpg';
     }
 
     this.ELEMENT_DATA[1].item =
@@ -228,7 +234,7 @@ export class AppComponent implements OnInit {
     let secondLine = '';
     this.addressLine2 ? (secondLine = this.addressLine2 + '%0d%0a') : '';
     el.innerHTML =
-      '<a href="mailto:dancout@umich.edu?subject=Charity Coaster Request&body=Charity Coaster Order Details:%0d%0aName: ' +
+      '<a href="mailto:dancout@umich.edu?subject=Charity Coaster Request&body=Charity Coaster Order Details:%0d%0a%0d%0aName: ' +
       this.firstName +
       ' ' +
       this.lastName +
@@ -260,7 +266,7 @@ export class AppComponent implements OnInit {
       '%0d%0a' +
       'Total Cost: $' +
       this.totalCost +
-      '">Order Now!</a>';
+      '%0d%0a%0d%0a">Order Now!</a>';
   }
 }
 

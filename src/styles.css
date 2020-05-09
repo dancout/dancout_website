@@ -104,6 +104,15 @@ svg.material-icons:not(:last-child) {
   padding-top: 10px;
 }
 
+.redCoastersDisplay {
+  display: inline;
+  margin-left: auto;
+  margin-right: auto;
+  height: 381px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 .card {
   border-radius: 4px;
   border: 1px solid #eee;
@@ -247,6 +256,11 @@ footer a {
   align-items: center;
 }
 
+.imgWrapper {
+  padding-top: 10px;
+  display: flex;
+}
+
 .github-star-badge {
   color: #24292e;
   display: flex;
@@ -300,7 +314,27 @@ img {
   display: grid;
 }
 
+.upperPtag {
+  width: 100%;
+  max-width: 865px;
+  margin: auto !important;
+}
+
 /* Responsive Styles */
+
+@media screen and (max-width: 896px) {
+  .redCoastersDisplay {
+    margin-left: auto;
+    margin-right: auto;
+    height: 280px;
+    display: block;
+  }
+
+  .secondImg {
+    display: none;
+  }
+}
+
 @media screen and (max-width: 767px) {
   .detailWrapper {
     display: block;
