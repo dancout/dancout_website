@@ -319,6 +319,24 @@
                       </p>
                     </div>
 
+                    <!-- Additional Comments Section -->
+                    <div
+                      class="expandDescription example-element-description"
+                      *ngIf="displayCommentsSection(element.symbol)"
+                    >
+                      <mat-form-field appearance="fill">
+                        <mat-label>Additional Comments</mat-label>
+                        <input
+                          type="text"
+                          matInput
+                          [(ngModel)]="additionalComments"
+                        />
+                      </mat-form-field>
+                      <p>
+                        Please place any additional comments here.
+                      </p>
+                    </div>
+
                     <!-- Order Summary Section -->
                     <div
                       class="expandDescription example-element-description"
@@ -364,8 +382,13 @@
                       <p *ngIf="city">{{ city }}</p>
                       <p *ngIf="state">{{ state }}</p>
                       <p *ngIf="zip">{{ zip }}</p>
+                      <br *ngIf="additionalComments" />
+                      <p *ngIf="additionalComments">
+                        <em>Additional Comments: </em>
+                        {{ this.additionalComments }}
+                      </p>
                       <strong
-                        ><p>Total Cost: {{ ELEMENT_DATA[6].price }}</p></strong
+                        ><p>Total Cost: {{ ELEMENT_DATA[7].price }}</p></strong
                       >
                       <div class="card-container">
                         <div
