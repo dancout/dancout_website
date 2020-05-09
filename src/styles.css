@@ -256,6 +256,11 @@ footer a {
   align-items: center;
 }
 
+.imgWrapper {
+  padding-top: 10px;
+  display: flex;
+}
+
 .github-star-badge {
   color: #24292e;
   display: flex;
@@ -307,6 +312,12 @@ img {
 
 .shippingSection {
   display: grid;
+}
+
+.upperPtag {
+  width: 100%;
+  max-width: 865px;
+  margin: auto !important;
 }
 
 /* Responsive Styles */

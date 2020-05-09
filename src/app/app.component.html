@@ -16,16 +16,23 @@
     <!-- What's Happening -->
     <h2 style="text-align: center;">What's Happening</h2>
     <div class="happeningClass">
-      <p>
+      <p class="upperPtag">
         I'm making hand-made wooden coasters and selling them for charity.
-      </p>
-      <p>
+        <br />
+        <br />
+
+        COVID19 is affecting each of us in different ways. There are children
+        all around the country who rely on school lunches for meals, and due to
+        this pandemic, they don't have access to these regular meals.
+        <br />
+        <br />
+
         Your purchase will pay for the cost of the materials, and make a
         donation to the
         <a target="_blank" href="https://www.nokidhungry.org/coronavirus"
           >No Kid Hungry</a
         >
-        organization.
+        organization, ensuring every child has enough to eat.
       </p>
 
       <div class="imgWrapper">
@@ -134,8 +141,9 @@
                         >4 Dark w/ Light Accents</mat-option
                       >
                       <mat-option value="Light"
-                        >4 Light w/ Dark Accent</mat-option
+                        >4 Light w/ Dark Accents</mat-option
                       >
+                      <mat-option value="Pop">4 Pop of Color</mat-option>
                     </mat-select>
                   </mat-form-field>
 
@@ -144,6 +152,15 @@
                     this picture is a rough guess of what it could look like.
                     This example is scrap wood put together, unpolished, and a
                     final product will be more "square".
+                  </p>
+                  <p *ngIf="popSelected()" class="designText">
+                    This selection will have a limited supply, due to the high
+                    expense of
+                    <a
+                      href="https://www.amazon.com/dp/B01LZFAT9S/ref=cm_sw_em_r_mt_dp_U_i.FTEb6CANTB2"
+                      target="_blank"
+                      >padauk</a
+                    >. It will be treated as first come, first served.
                   </p>
                 </div>
 

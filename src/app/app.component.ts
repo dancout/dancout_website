@@ -151,6 +151,10 @@ export class AppComponent implements OnInit {
     return this.designSelection === 'Light';
   }
 
+  popSelected() {
+    return this.designSelection === 'Pop';
+  }
+
   displayArrow(text: string) {
     return (
       !(text.includes('$') || text.includes('--')) || text.includes('COVID')
@@ -194,6 +198,8 @@ export class AppComponent implements OnInit {
       this.ELEMENT_DATA[1].picURL = '/assets/Dark.jpg';
     } else if (this.designSelection === 'Light') {
       this.ELEMENT_DATA[1].picURL = '/assets/Light.jpg';
+    } else if (this.designSelection === 'Pop') {
+      this.ELEMENT_DATA[1].picURL = '/assets/popOfColor.jpg';
     }
 
     this.ELEMENT_DATA[1].item =
