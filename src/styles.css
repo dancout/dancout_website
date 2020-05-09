@@ -1,8 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
 /* TODO: Fix this angular import for themes */
-/* @import '~@angular/material/prebuilt-themes/deeppurple-amber.css'; */
+/* @import "~@angular/material/theming"; */
 
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 :host {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
@@ -136,6 +137,22 @@ svg.material-icons:not(:last-child) {
 .card.card-small {
   height: 16px;
   width: 168px;
+  margin: auto;
+}
+
+.projectPic {
+  height: 400px;
+
+}
+
+.projectText {
+  margin: auto;
+}
+
+.projectContent {
+  overflow: hidden;
+  justify-items: center;
+  display: grid;
 }
 
 .card-container .card:not(.highlight-card) {
@@ -301,7 +318,6 @@ svg#clouds {
   max-width: 500px;
 }
 
-
 img {
   height: 104px;
 }
@@ -320,6 +336,43 @@ img {
   margin: auto !important;
 }
 
+.couchWrapper {
+  display: block;
+}
+
+section {
+  display: table;
+  margin: 8px;
+}
+
+.example-label {
+  display: table-cell;
+  font-size: 14px;
+  margin-left: 8px;
+  width: 120px;
+}
+
+.example-button-row {
+  display: table-cell;
+}
+
+.example-button-row button {
+  display: table-cell;
+  margin-right: 8px;
+}
+
+.example-flex-container {
+  display: flex;
+  justify-content: space-between;
+  width: 480px;
+}
+
+.example-button-container {
+  display: flex;
+  justify-content: center;
+  width: 120px;
+}
+
 /* Responsive Styles */
 
 @media screen and (max-width: 896px) {
@@ -333,9 +386,17 @@ img {
   .secondImg {
     display: none;
   }
+
+  .couchWrapper {
+    display: contents;
+  }
 }
 
 @media screen and (max-width: 767px) {
+  .shrinkImg {
+    height: 224px;
+  }
+
   .detailWrapper {
     display: block;
   }
@@ -378,7 +439,6 @@ img {
     white-space: nowrap;
   }
 
-
   th.mat-header-cell:last-of-type,
   td.mat-cell:last-of-type,
   td.mat-footer-cell:last-of-type {
@@ -393,7 +453,6 @@ img {
     display: block;
     padding: 24px;
   }
-
 
   .card-container>*:not(.circle-link),
   .terminal {
