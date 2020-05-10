@@ -13,6 +13,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCardModule } from '@angular/material/card';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -27,11 +29,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
+    MatCardModule,
     MatTableModule,
     MatRadioModule,
     MatIconModule,
     FormsModule,
     MatButtonModule,
+    MatCheckboxModule,
     MatDividerModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,

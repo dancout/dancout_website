@@ -6,6 +6,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 /**
  * @title Table with expandable rows
@@ -29,7 +30,7 @@ export class AppComponent implements OnInit {
   ELEMENT_DATA: PeriodicElement[] = [
     {
       item: 'Wood Materials Cost',
-      price: '$4.78',
+      price: '--',
       symbol: 'woodCost',
       picURL:
         'https://images-na.ssl-images-amazon.com/images/I/51xMwQS2PKL._AC_.jpg',
@@ -89,6 +90,7 @@ export class AppComponent implements OnInit {
   title = 'dancout';
   designSelection = 'Dark';
   coasterDecision = 'No';
+  paymentOption = 'Venmo';
   totalCost: number;
   woodCost = 4.78;
   standCost = 0;
@@ -96,6 +98,10 @@ export class AppComponent implements OnInit {
   donationCost = 12;
   donationTooLow = false;
   venmoAccount: string;
+  darkQuantity = 1;
+  lightQuantity = 0;
+  popQuantity = 0;
+  standQuantity = 1;
   additionalComments: string;
   firstName: string;
   lastName: string;
@@ -105,10 +111,18 @@ export class AppComponent implements OnInit {
   state: string;
   zip: number;
 
+  darkChecked = true;
+  lightChecked = false;
+  popChecked = false;
+  indeterminate = false;
+  labelPosition: 'before' | 'after' = 'after';
+  disabled = false;
+
   ngOnInit() {
     this.getDesignPic();
+    this.getPaymentPic();
     this.getCoasterDecision();
-    this.calculateCost();
+    this.checkDonation();
     this.expandedElement = this.ELEMENT_DATA[0];
   }
 
@@ -118,13 +132,47 @@ export class AppComponent implements OnInit {
   }
 
   getTotalDonation() {
-    return this.donationCost + this.standCost;
+    return this.donationCost + this.calculateStandCost();
+  }
+
+  calculateWoodCost() {
+    let myCost = 0;
+
+    this.darkChecked ? (myCost += this.darkQuantity * this.woodCost) : myCost;
+    this.lightChecked ? (myCost += this.lightQuantity * this.woodCost) : myCost;
+    this.popChecked ? (myCost += this.popQuantity * this.woodCost) : myCost;
+    return myCost;
+  }
+
+  calculateStandCost() {
+    let myCost = 0;
+    this.coasterDecision === 'Yes'
+      ? (myCost += this.standCost * this.standQuantity)
+      : myCost;
+
+    // this.coasterDecision === 'Yes' && this.ELEMENT_DATA[2].price
+    //   ? (this.ELEMENT_DATA[2].price = '$' + myCost)
+    //   : (this.ELEMENT_DATA[2].price = '$7');
+
+    return myCost;
   }
 
   calculateCost() {
+    // this.totalCost =
+    //   this.calculateWoodCost() +
+    //   this.calculateStandCost() +
+    //   this.shippingCost +
+    //   this.donationCost;
+
     this.totalCost =
-      this.woodCost + this.standCost + this.shippingCost + this.donationCost;
-    this.ELEMENT_DATA[7].price = '$' + this.totalCost.toString();
+      this.calculateWoodCost() + this.getTotalDonation() + this.shippingCost;
+
+    this.ELEMENT_DATA[7].price =
+      '$' + parseFloat(this.totalCost.toString()).toFixed(2);
+  }
+
+  disableQuantity(val) {
+    return !val;
   }
 
   displayCommentsSection(symbol) {
@@ -172,22 +220,39 @@ export class AppComponent implements OnInit {
     );
   }
 
+  howManySets() {
+    let myNum = 0;
+    this.darkChecked ? (myNum += this.darkQuantity) : myNum;
+    this.lightChecked ? (myNum += this.lightQuantity) : myNum;
+    this.popChecked ? (myNum += this.popQuantity) : myNum;
+
+    return myNum;
+  }
+
   checkDonation() {
-    if (this.donationCost < 12) {
+    if (this.donationCost < 12 * this.howManySets()) {
       this.donationTooLow = true;
       if (window.innerWidth > 656) {
         this.ELEMENT_DATA[3].item = 'COVID19 Relief Donation';
         this.ELEMENT_DATA[3].price =
-          '$' + this.donationCost.toString() + ' -- Too Low :(';
+          '$' +
+          (this.donationCost ? this.donationCost.toString() : '') +
+          ' -- Too Low :(';
       } else {
         this.ELEMENT_DATA[3].item = 'Donation Too Low :(';
-        this.ELEMENT_DATA[3].price = '$' + this.donationCost.toString();
+        this.ELEMENT_DATA[3].price =
+          '$' + (this.donationCost ? this.donationCost.toString() : '');
       }
     } else {
       this.donationTooLow = false;
-      this.ELEMENT_DATA[3].price = '$' + this.donationCost.toString();
+      this.ELEMENT_DATA[3].price =
+        '$' + (this.donationCost ? this.donationCost.toString() : '');
       this.ELEMENT_DATA[3].item = 'COVID19 Relief Donation';
     }
+
+    this.ELEMENT_DATA[1].price =
+      '$' + (this.howManySets() * this.woodCost).toString();
+
     this.calculateCost();
   }
 
@@ -195,13 +260,13 @@ export class AppComponent implements OnInit {
     if (this.coasterDecision === 'Yes') {
       this.ELEMENT_DATA[2].item = 'Coaster Stand (Yes, Please!)';
       this.standCost = 7;
-      this.ELEMENT_DATA[2].price = '$' + this.standCost.toString();
+      this.ELEMENT_DATA[2].price = '$' + this.calculateStandCost().toString();
     } else {
       this.ELEMENT_DATA[2].item = 'Coaster Stand (No, thank you.)';
       this.standCost = 0;
       this.ELEMENT_DATA[2].price = '--';
     }
-    this.calculateCost();
+    this.checkDonation();
   }
 
   getDesignPic() {
@@ -215,6 +280,19 @@ export class AppComponent implements OnInit {
 
     this.ELEMENT_DATA[1].item =
       'Design Selection (' + this.designSelection + ')';
+  }
+
+  getPaymentPic() {
+    if (this.paymentOption === 'Venmo') {
+      this.ELEMENT_DATA[4].picURL =
+        'https://dvh1deh6tagwk.cloudfront.net/money-transfers/images/product/venmologo-supplied-310x194.png?ver=20200404-135714';
+    } else if (this.paymentOption === 'ChaseQuickPay') {
+      this.ELEMENT_DATA[4].picURL = '/assets/chaseQuickPay.jpg';
+    } else if (this.paymentOption === 'Zelle') {
+      this.ELEMENT_DATA[4].picURL = '/assets/zelle.png';
+    }
+
+    this.ELEMENT_DATA[4].item = 'Payment Info (' + this.paymentOption + ')';
   }
 
   checkAddressValidity() {
@@ -237,6 +315,35 @@ export class AppComponent implements OnInit {
     }
 
     return ready;
+  }
+
+  createDesignSelectionText() {
+    let myText = '';
+    this.darkChecked
+      ? (myText += 'Dark Coasters:  ' + this.darkQuantity + ' set(s).%0d%0a')
+      : myText;
+    this.lightChecked
+      ? (myText += 'Light Coasters:  ' + this.lightQuantity + ' set(s).%0d%0a')
+      : myText;
+    this.popChecked
+      ? (myText += 'Pop Coasters:  ' + this.popQuantity + ' set(s).%0d%0a')
+      : myText;
+    return myText;
+  }
+
+  createStandText() {
+    let myText = '';
+    this.coasterDecision === 'Yes'
+      ? (myText +=
+          'Coaster Stand(s):  ' +
+          this.coasterDecision +
+          ',  ' +
+          this.standQuantity +
+          ' sets.')
+      : (myText += 'Coaster Stand(s):  ' + this.coasterDecision);
+    myText += '%0d%0a';
+
+    return myText;
   }
 
   createOrderButton() {
@@ -266,16 +373,13 @@ export class AppComponent implements OnInit {
       this.zip +
       '%0d%0a' +
       '%0d%0a' +
-      'Design Selection: ' +
-      this.designSelection +
-      '%0d%0a' +
-      'Coaster Stand: ' +
-      this.coasterDecision +
-      '%0d%0a' +
-      'Total Donation: $' +
+      this.createDesignSelectionText() +
+      this.createStandText() +
+      'Total Charity Donation: $' +
       this.getTotalDonation() +
       '%0d%0a' +
-      'Venmo Account: ' +
+      this.paymentOption +
+      ' Account: ' +
       this.venmoAccount +
       '%0d%0a%0d%0a' +
       addComm +
