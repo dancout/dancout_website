@@ -393,6 +393,10 @@ section {
   height: 60px;
 }
 
+.quantityInput {
+  width: 100px;
+}
+
 .checkbox-margin {
   margin: 0 10px;
 }

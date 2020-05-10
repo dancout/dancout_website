@@ -174,8 +174,6 @@
 
                       <mat-card>
                         <mat-card-content>
-                          <h2 class="example-h2">Coaster Selection</h2>
-
                           <section class="checkbox-section">
                             <mat-checkbox
                               class="checkbox-margin"
@@ -183,7 +181,10 @@
                               (change)="checkDonation()"
                               >Dark Set</mat-checkbox
                             >
-                            <mat-form-field appearance="fill">
+                            <mat-form-field
+                              appearance="fill"
+                              class="quantityInput"
+                            >
                               <mat-label>Quantity</mat-label>
                               <input
                                 type="number"
@@ -202,7 +203,10 @@
                               (change)="checkDonation()"
                               >Light Set</mat-checkbox
                             >
-                            <mat-form-field appearance="fill">
+                            <mat-form-field
+                              appearance="fill"
+                              class="quantityInput"
+                            >
                               <mat-label>Quantity</mat-label>
                               <input
                                 type="number"
@@ -221,7 +225,10 @@
                               (change)="checkDonation()"
                               >Pop Set</mat-checkbox
                             >
-                            <mat-form-field appearance="fill">
+                            <mat-form-field
+                              appearance="fill"
+                              class="quantityInput"
+                            >
                               <mat-label>Quantity</mat-label>
                               <input
                                 type="number"
@@ -268,7 +275,7 @@
                           >No, thank you.</mat-radio-button
                         >
                       </mat-radio-group>
-                      <mat-form-field appearance="fill">
+                      <mat-form-field appearance="fill" class="quantityInput">
                         <mat-label>Quantity</mat-label>
                         <input
                           type="number"
