@@ -141,7 +141,8 @@ export class AppComponent implements OnInit {
     this.darkChecked ? (myCost += this.darkQuantity * this.woodCost) : myCost;
     this.lightChecked ? (myCost += this.lightQuantity * this.woodCost) : myCost;
     this.popChecked ? (myCost += this.popQuantity * this.woodCost) : myCost;
-    return myCost;
+
+    return Number(parseFloat(myCost.toString()).toFixed(2));
   }
 
   calculateStandCost() {
@@ -251,7 +252,10 @@ export class AppComponent implements OnInit {
     }
 
     this.ELEMENT_DATA[1].price =
-      '$' + (this.howManySets() * this.woodCost).toString();
+      '$' +
+      parseFloat((this.howManySets() * this.woodCost).toString())
+        .toFixed(2)
+        .toString();
 
     this.calculateCost();
   }
@@ -290,6 +294,8 @@ export class AppComponent implements OnInit {
       this.ELEMENT_DATA[4].picURL = '/assets/chaseQuickPay.jpg';
     } else if (this.paymentOption === 'Zelle') {
       this.ELEMENT_DATA[4].picURL = '/assets/zelle.png';
+    } else if (this.paymentOption === 'Other') {
+      this.ELEMENT_DATA[4].picURL = '/assets/checkBook.png';
     }
 
     this.ELEMENT_DATA[4].item = 'Payment Info (' + this.paymentOption + ')';
