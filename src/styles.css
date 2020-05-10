@@ -378,6 +378,10 @@ section {
   padding-top: 10px;
 }
 
+.paymentWrapper {
+  width: 65%;
+}
+
 /* Responsive Styles */
 
 @media screen and (max-width: 896px) {
@@ -402,6 +406,10 @@ section {
 }
 
 @media screen and (max-width: 767px) {
+  .paymentWrapper {
+    width: auto;
+  }
+
   .shrinkImg {
     height: 224px;
   }

@@ -89,6 +89,7 @@ export class AppComponent implements OnInit {
   title = 'dancout';
   designSelection = 'Dark';
   coasterDecision = 'No';
+  paymentOption = 'Venmo';
   totalCost: number;
   woodCost = 4.78;
   standCost = 0;
@@ -107,6 +108,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.getDesignPic();
+    this.getPaymentPic();
     this.getCoasterDecision();
     this.calculateCost();
     this.expandedElement = this.ELEMENT_DATA[0];
@@ -217,6 +219,19 @@ export class AppComponent implements OnInit {
       'Design Selection (' + this.designSelection + ')';
   }
 
+  getPaymentPic() {
+    if (this.paymentOption === 'Venmo') {
+      this.ELEMENT_DATA[4].picURL =
+        'https://dvh1deh6tagwk.cloudfront.net/money-transfers/images/product/venmologo-supplied-310x194.png?ver=20200404-135714';
+    } else if (this.paymentOption === 'ChaseQuickPay') {
+      this.ELEMENT_DATA[4].picURL = '/assets/chaseQuickPay.jpg';
+    } else if (this.paymentOption === 'Zelle') {
+      this.ELEMENT_DATA[4].picURL = '/assets/zelle.png';
+    }
+
+    this.ELEMENT_DATA[4].item = 'Payment Info (' + this.paymentOption + ')';
+  }
+
   checkAddressValidity() {
     return (
       this.addressLine1 &&
@@ -275,7 +290,8 @@ export class AppComponent implements OnInit {
       'Total Donation: $' +
       this.getTotalDonation() +
       '%0d%0a' +
-      'Venmo Account: ' +
+      this.paymentOption +
+      ' Account: ' +
       this.venmoAccount +
       '%0d%0a%0d%0a' +
       addComm +
