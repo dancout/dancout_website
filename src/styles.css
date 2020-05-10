@@ -382,6 +382,23 @@ section {
   width: 65%;
 }
 
+.example-h2 {
+  margin: 10px;
+}
+
+.checkbox-section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+.checkbox-margin {
+  margin: 0 10px;
+}
+
+
+
 /* Responsive Styles */
 
 @media screen and (max-width: 896px) {

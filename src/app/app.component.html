@@ -141,22 +141,6 @@
                       class="expandDescription example-element-description"
                       *ngIf="displayDesignSelection(element.symbol)"
                     >
-                      <mat-form-field>
-                        <mat-label>Select an option</mat-label>
-                        <mat-select
-                          [(value)]="designSelection"
-                          (selectionChange)="getDesignPic()"
-                        >
-                          <mat-option value="Dark"
-                            >4 Dark w/ Light Accents</mat-option
-                          >
-                          <mat-option value="Light"
-                            >4 Light w/ Dark Accents</mat-option
-                          >
-                          <mat-option value="Pop">4 Pop of Color</mat-option>
-                        </mat-select>
-                      </mat-form-field>
-
                       <p *ngIf="lightSelected()" class="designText">
                         Please note that this "Light" option has not been built
                         yet, so this picture is a rough guess of what it could
@@ -172,6 +156,84 @@
                           >padauk</a
                         >. It will be treated as first come, first served.
                       </p>
+                      <mat-form-field style="padding-right: 10px;">
+                        <mat-label>View Options</mat-label>
+                        <mat-select
+                          [(value)]="designSelection"
+                          (selectionChange)="getDesignPic()"
+                        >
+                          <mat-option value="Dark"
+                            >4 Dark w/ Light Accents</mat-option
+                          >
+                          <mat-option value="Light"
+                            >4 Light w/ Dark Accents</mat-option
+                          >
+                          <mat-option value="Pop">4 Pop of Color</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+
+                      <mat-card>
+                        <mat-card-content>
+                          <h2 class="example-h2">Coaster Selection</h2>
+
+                          <section class="checkbox-section">
+                            <mat-checkbox
+                              class="checkbox-margin"
+                              [(ngModel)]="darkChecked"
+                              (change)="checkDonation()"
+                              >Dark Set</mat-checkbox
+                            >
+                            <mat-form-field appearance="fill">
+                              <mat-label>Quantity</mat-label>
+                              <input
+                                type="number"
+                                matInput
+                                (blur)="checkDonation()"
+                                [disabled]="!darkChecked"
+                                [(ngModel)]="darkQuantity"
+                              />
+                            </mat-form-field>
+                          </section>
+
+                          <section class="checkbox-section">
+                            <mat-checkbox
+                              class="checkbox-margin"
+                              [(ngModel)]="lightChecked"
+                              (change)="checkDonation()"
+                              >Light Set</mat-checkbox
+                            >
+                            <mat-form-field appearance="fill">
+                              <mat-label>Quantity</mat-label>
+                              <input
+                                type="number"
+                                matInput
+                                (blur)="checkDonation()"
+                                [disabled]="!lightChecked"
+                                [(ngModel)]="lightQuantity"
+                              />
+                            </mat-form-field>
+                          </section>
+
+                          <section class="checkbox-section">
+                            <mat-checkbox
+                              class="checkbox-margin"
+                              [(ngModel)]="popChecked"
+                              (change)="checkDonation()"
+                              >Pop Set</mat-checkbox
+                            >
+                            <mat-form-field appearance="fill">
+                              <mat-label>Quantity</mat-label>
+                              <input
+                                type="number"
+                                matInput
+                                (blur)="checkDonation()"
+                                [disabled]="!popChecked"
+                                [(ngModel)]="popQuantity"
+                              />
+                            </mat-form-field>
+                          </section>
+                        </mat-card-content>
+                      </mat-card>
                     </div>
 
                     <!-- Coaster Stand Section -->
@@ -206,6 +268,16 @@
                           >No, thank you.</mat-radio-button
                         >
                       </mat-radio-group>
+                      <mat-form-field appearance="fill">
+                        <mat-label>Quantity</mat-label>
+                        <input
+                          type="number"
+                          matInput
+                          (blur)="getCoasterDecision()"
+                          [disabled]="coasterDecision == 'No'"
+                          [(ngModel)]="standQuantity"
+                        />
+                      </mat-form-field>
                     </div>
 
                     <!-- COVID Relief Section -->
@@ -236,7 +308,8 @@
                       </mat-form-field>
                       <div *ngIf="donationTooLow">
                         <p style="color: red;">
-                          Please give a donation of at least $12.
+                          Please give a donation of at least $12 per coaster
+                          set.
                         </p>
                       </div>
                     </div>
@@ -375,16 +448,33 @@
                         Bandit says THANK YOU!
                       </p>
                       <h3>Order Details</h3>
-                      <p>Design Selection: {{ designSelection }}</p>
-                      <p>Coaster Stand: {{ coasterDecision }}</p>
+
+                      <p *ngIf="darkChecked">
+                        Dark Option: {{ darkQuantity }} set(s)
+                      </p>
+                      <p *ngIf="lightChecked">
+                        Light Option: {{ lightQuantity }} set(s)
+                      </p>
+                      <p *ngIf="popChecked">
+                        Pop Option: {{ popQuantity }} set(s)
+                      </p>
+                      <p>Total Material Costs: ${{ calculateWoodCost() }}</p>
+                      <p>Coaster Stand(s): {{ coasterDecision }}</p>
+                      <p *ngIf="coasterDecision == 'Yes'">
+                        Stand Quantity: {{ this.standQuantity }}
+                      </p>
                       <p *ngIf="donationTooLow" style="color: red;">
-                        You must provide a donation of at least $15.
+                        You must provide a donation of at least $12 per coaster
+                        set.
                       </p>
                       <p *ngIf="!donationTooLow">
-                        Total Donation Amount: ${{ getTotalDonation() }}
+                        Total Donation Amount (Donation + Stand Costs): ${{
+                          getTotalDonation()
+                        }}
                       </p>
+                      <p>Shipping Costs: $9</p>
                       <p *ngIf="!venmoAccount" style="color: red;">
-                        You must provide a venmo account for payment
+                        You must provide a payment account
                       </p>
                       <p *ngIf="venmoAccount">
                         {{ this.paymentOption }} Account: {{ venmoAccount }}
@@ -413,7 +503,10 @@
                         {{ this.additionalComments }}
                       </p>
                       <strong
-                        ><p>Total Cost: {{ ELEMENT_DATA[7].price }}</p></strong
+                        ><p>
+                          Total Cost:
+                          {{ ELEMENT_DATA[7].price }}
+                        </p></strong
                       >
                       <div class="card-container">
                         <div
