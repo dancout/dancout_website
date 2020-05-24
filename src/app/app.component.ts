@@ -6,7 +6,11 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { THIS_EXPR, IfStmt } from '@angular/compiler/src/output/output_ast';
+
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSelectChange } from '@angular/material/select';
+
 
 /**
  * @title Table with expandable rows
@@ -88,7 +92,7 @@ export class AppComponent implements OnInit {
   columnsToDisplay = ['item', 'price'];
   expandedElement: PeriodicElement | null;
   title = 'dancout';
-  designSelection = 'Dark';
+  designSelection = '';
   coasterDecision = 'No';
   paymentOption = 'Venmo';
   totalCost: number;
@@ -110,6 +114,10 @@ export class AppComponent implements OnInit {
   city: string;
   state: string;
   zip: number;
+  minDonationRequired = 12;
+
+  designSelectionPic = '/assets/Dark.jpg';
+  paymentPic = 'https://dvh1deh6tagwk.cloudfront.net/money-transfers/images/product/venmologo-supplied-310x194.png?ver=20200404-135714';
 
   darkChecked = true;
   lightChecked = false;
@@ -118,12 +126,143 @@ export class AppComponent implements OnInit {
   labelPosition: 'before' | 'after' = 'after';
   disabled = false;
 
+  isLinear = true;
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
+  thirdFormGroup: FormGroup;
+
+  constructor(private _formBuilder: FormBuilder) { }
+
+  updateDonationPerQuantity() {
+    const totalQuantity = this.firstFormGroup.get('darkQuantity2').value +
+      this.firstFormGroup.get('lightQuantity2').value +
+      this.firstFormGroup.get('popQuantity2').value;
+    const totalStandsQuantity = this.firstFormGroup.get('standQuantity2').value;
+    this.minDonationRequired = totalQuantity * 12 + totalStandsQuantity * 7;
+
+    this.firstFormGroup.get('donationCost2').setValue(this.minDonationRequired);
+  }
+
+  checkDontationAdequacy() {
+
+    // TODO: make the dontation field just an "additional donation" field
+    // TODO: probably change minDonation to totalDonation or something
+
+    const totalQuantity = this.firstFormGroup.get('darkQuantity2').value +
+      this.firstFormGroup.get('lightQuantity2').value +
+      this.firstFormGroup.get('popQuantity2').value;
+    const totalStandsQuantity = this.firstFormGroup.get('standQuantity2').value;
+    this.minDonationRequired = totalQuantity * 12 + totalStandsQuantity * 7;
+
+
+
+
+    if (this.firstFormGroup.get('additionalDonation').value < 0) {
+      this.firstFormGroup.get('additionalDonation').setErrors({ 'tooLow': true });
+    }
+    else {
+      this.firstFormGroup.get('additionalDonation').setErrors(null);
+    }
+  }
+
+  disableAccordingly() {
+    // dark
+    if (this.firstFormGroup.get('darkChecked2').value) {
+      this.firstFormGroup.get('darkQuantity2').enable();
+      if (this.firstFormGroup.get('darkQuantity2').value === 0) {
+        this.firstFormGroup.get('darkQuantity2').setValue(1);
+      }
+    }
+    else {
+      this.firstFormGroup.get('darkQuantity2').setValue(0);
+      this.firstFormGroup.get('darkQuantity2').disable();
+    }
+
+    // light
+    if (this.firstFormGroup.get('lightChecked2').value) {
+      this.firstFormGroup.get('lightQuantity2').enable();
+      if (this.firstFormGroup.get('lightQuantity2').value === 0) {
+        this.firstFormGroup.get('lightQuantity2').setValue(1);
+      }
+    }
+    else {
+      this.firstFormGroup.get('lightQuantity2').setValue(0);
+      this.firstFormGroup.get('lightQuantity2').disable();
+    }
+
+    // pop
+    if (this.firstFormGroup.get('popChecked2').value) {
+      this.firstFormGroup.get('popQuantity2').enable();
+      if (this.firstFormGroup.get('popQuantity2').value === 0) {
+        this.firstFormGroup.get('popQuantity2').setValue(1);
+      }
+    }
+    else {
+      this.firstFormGroup.get('popQuantity2').setValue(0);
+      this.firstFormGroup.get('popQuantity2').disable();
+    }
+
+    // stand
+    if (this.firstFormGroup.get('coasterDecision2').value === 'Yes') {
+      this.firstFormGroup.get('standQuantity2').enable();
+      if (this.firstFormGroup.get('standQuantity2').value === 0) {
+        this.firstFormGroup.get('standQuantity2').setValue(1);
+      }
+    }
+    else {
+      this.firstFormGroup.get('standQuantity2').setValue(0);
+      this.firstFormGroup.get('standQuantity2').disable();
+    }
+
+    // update min donation
+    this.updateDonationPerQuantity();
+  }
+
+
   ngOnInit() {
-    this.getDesignPic();
     this.getPaymentPic();
     this.getCoasterDecision();
     this.checkDonation();
     this.expandedElement = this.ELEMENT_DATA[0];
+
+    this.firstFormGroup = this._formBuilder.group({
+      designSelection2: ['Dark', Validators.required],
+      darkChecked2: [true],
+      darkQuantity2: [1],
+      lightChecked2: [false],
+      lightQuantity2: [0],
+      popChecked2: [false],
+      popQuantity2: [0],
+      coasterDecision2: ['No'],
+      standQuantity2: [0],
+      donationCost2: [0],
+      additionalDonation: [0],
+    });
+
+    this.secondFormGroup = this._formBuilder.group({
+      fullName2: ['', Validators.required],
+      addressLine1_2: ['', Validators.required],
+      addressLine2_2: [''],
+      city2: ['', Validators.required],
+      state2: ['', Validators.required],
+      zip2: ['', Validators.required],
+      paymentAccount: ['', Validators.required],
+      additionalComments2: ['']
+    });
+
+    this.thirdFormGroup = this._formBuilder.group({
+      fullName2: ['', Validators.required],
+      addressLine1_2: ['', Validators.required],
+      addressLine2_2: [''],
+      city2: ['', Validators.required],
+      state2: ['', Validators.required],
+      zip2: ['', Validators.required],
+      paymentAccount: ['', Validators.required,
+      ]
+    });
+
+    this.disableAccordingly();
+
   }
 
   scroll(id) {
@@ -273,29 +412,27 @@ export class AppComponent implements OnInit {
     this.checkDonation();
   }
 
-  getDesignPic() {
-    if (this.designSelection === 'Dark') {
-      this.ELEMENT_DATA[1].picURL = '/assets/Dark.jpg';
-    } else if (this.designSelection === 'Light') {
-      this.ELEMENT_DATA[1].picURL = '/assets/Light.jpg';
-    } else if (this.designSelection === 'Pop') {
-      this.ELEMENT_DATA[1].picURL = '/assets/popOfColor.jpg';
-    }
+  getDesignPic($event: MatSelectChange) {
 
-    this.ELEMENT_DATA[1].item =
-      'Design Selection (' + this.designSelection + ')';
+    if ($event.value === 'Dark') {
+      this.designSelectionPic = '/assets/Dark.jpg';
+    } else if ($event.value === 'Light') {
+      this.designSelectionPic = '/assets/Light.jpg';
+    } else if ($event.value === 'Pop') {
+      this.designSelectionPic = '/assets/popOfColor.jpg';
+    }
   }
 
   getPaymentPic() {
     if (this.paymentOption === 'Venmo') {
-      this.ELEMENT_DATA[4].picURL =
+      this.paymentPic =
         'https://dvh1deh6tagwk.cloudfront.net/money-transfers/images/product/venmologo-supplied-310x194.png?ver=20200404-135714';
     } else if (this.paymentOption === 'ChaseQuickPay') {
-      this.ELEMENT_DATA[4].picURL = '/assets/chaseQuickPay.jpg';
+      this.paymentPic = '/assets/chaseQuickPay.jpg';
     } else if (this.paymentOption === 'Zelle') {
-      this.ELEMENT_DATA[4].picURL = '/assets/zelle.png';
+      this.paymentPic = '/assets/zelle.png';
     } else if (this.paymentOption === 'Other') {
-      this.ELEMENT_DATA[4].picURL = '/assets/checkBook.png';
+      this.paymentPic = '/assets/checkBook.png';
     }
 
     this.ELEMENT_DATA[4].item = 'Payment Info (' + this.paymentOption + ')';
@@ -341,11 +478,11 @@ export class AppComponent implements OnInit {
     let myText = '';
     this.coasterDecision === 'Yes'
       ? (myText +=
-          'Coaster Stand(s):  ' +
-          this.coasterDecision +
-          ',  ' +
-          this.standQuantity +
-          ' sets.')
+        'Coaster Stand(s):  ' +
+        this.coasterDecision +
+        ',  ' +
+        this.standQuantity +
+        ' sets.')
       : (myText += 'Coaster Stand(s):  ' + this.coasterDecision);
     myText += '%0d%0a';
 
@@ -359,7 +496,7 @@ export class AppComponent implements OnInit {
     let addComm = '';
     this.additionalComments
       ? (addComm =
-          'Additional Comments: ' + this.additionalComments + '%0d%0a%0d%0a')
+        'Additional Comments: ' + this.additionalComments + '%0d%0a%0d%0a')
       : '';
     el.innerHTML =
       '<a href="mailto:dancout@umich.edu?subject=Charity Coaster Request&body=Charity Coaster Order Details:%0d%0a%0d%0aName: ' +

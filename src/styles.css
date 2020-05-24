@@ -24,6 +24,11 @@ h6 {
   margin: 8px 0;
 }
 
+.priceDisplay {
+  margin: 0px !important;
+  padding-left: 5px;
+}
+
 p {
   margin: 0;
   white-space: normal;
@@ -113,6 +118,14 @@ svg.material-icons:not(:last-child) {
   height: 381px;
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.mat-stepper-vertical {
+  margin-top: 8px;
+}
+
+.mat-form-field {
+  margin-top: 16px;
 }
 
 .card {
@@ -353,8 +366,22 @@ section {
   width: 120px;
 }
 
+.mat-button {
+  background-color: #3f51b5;
+  color: #fff;
+  margin-right: 10px !important;
+}
+
+.mat-button[disabled] {
+  background-color: gray;
+}
+
 .example-button-row {
   display: table-cell;
+}
+
+.paymentBlock {
+  padding-right: 25px;
 }
 
 .example-button-row button {
@@ -380,6 +407,7 @@ section {
 
 .paymentWrapper {
   width: 65%;
+  display: -webkit-inline-box;
 }
 
 .example-h2 {
@@ -394,7 +422,7 @@ section {
 }
 
 .quantityInput {
-  width: 100px;
+  width: 60px;
 }
 
 .checkbox-margin {
