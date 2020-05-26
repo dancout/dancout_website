@@ -76,7 +76,8 @@
 
                   <!-- Price Breakdown -->
                   <div class="dropdown" style="display: contents;">
-                    <a (click)="flipSeeMore()">{{seeMessage}}<mat-icon [class.rotate-180]="seeMore">keyboard_arrow_down
+                    <a style="padding-bottom: 5px;" (click)="flipSeeMore()">{{seeMessage}}<mat-icon
+                        [class.rotate-180]="seeMore">keyboard_arrow_down
                       </mat-icon> </a>
                     <div class="dropdown-inner" [class.dropdown-menu]="seeMore">
                       <!-- Wood Cost Section -->
@@ -105,11 +106,11 @@
                   <!-- <mat-card-content> -->
                   <section class="checkbox-section">
                     <mat-checkbox class="checkbox-margin" formControlName="darkChecked2"
-                      (change)="checkDonation(); disableAccordingly()">
+                      (change)="disableAccordingly()">
                       Dark Set</mat-checkbox>
                     <mat-form-field appearance="fill" class="quantityInput">
                       <mat-label>Quantity</mat-label>
-                      <input type="number" matInput (blur)="checkDonation()" formControlName="darkQuantity2" />
+                      <input type="number" matInput formControlName="darkQuantity2" />
                     </mat-form-field>
                     <p class="priceDisplay" *ngIf="this.firstFormGroup.get('darkChecked2').value">
                       ${{this.firstFormGroup.get('darkQuantity2').value *  (12 + this.woodCost)}}</p>
@@ -117,23 +118,22 @@
 
                   <section class="checkbox-section">
                     <mat-checkbox class="checkbox-margin" formControlName="lightChecked2"
-                      (change)="checkDonation(); disableAccordingly()">
+                      (change)="disableAccordingly()">
                       Light Set</mat-checkbox>
                     <mat-form-field appearance="fill" class="quantityInput">
                       <mat-label>Quantity</mat-label>
-                      <input type="number" matInput (blur)="checkDonation()" formControlName="lightQuantity2" />
+                      <input type="number" matInput formControlName="lightQuantity2" />
                     </mat-form-field>
                     <p class="priceDisplay" *ngIf="this.firstFormGroup.get('lightChecked2').value">
                       ${{this.firstFormGroup.get('lightQuantity2').value *  (12 + this.woodCost)}} </p>
                   </section>
 
                   <section class="checkbox-section">
-                    <mat-checkbox class="checkbox-margin" formControlName="popChecked2"
-                      (change)="checkDonation(); disableAccordingly()">
+                    <mat-checkbox class="checkbox-margin" formControlName="popChecked2" (change)="disableAccordingly()">
                       Pop Set</mat-checkbox>
                     <mat-form-field appearance="fill" class="quantityInput">
                       <mat-label>Quantity</mat-label>
-                      <input type="number" matInput (blur)="checkDonation()" formControlName="popQuantity2" />
+                      <input type="number" matInput formControlName="popQuantity2" />
                     </mat-form-field>
                     <p class="priceDisplay" *ngIf="this.firstFormGroup.get('popChecked2').value">
                       ${{this.firstFormGroup.get('popQuantity2').value * (12 + this.woodCost)}}</p>
@@ -145,7 +145,7 @@
                     </div>
 
                     <mat-radio-group class="example-radio-group" aria-label="Select an option"
-                      (change)="getCoasterDecision(); disableAccordingly()" formControlName="coasterDecision2">
+                      (change)="disableAccordingly()" formControlName="coasterDecision2">
                       <mat-radio-button value="Yes">Yes, please!</mat-radio-button>
                       <mat-radio-button value="No">No, thank you.</mat-radio-button>
                     </mat-radio-group>
@@ -154,8 +154,7 @@
                       <div class="coasterQuantity">
                         <mat-form-field appearance="fill" class="quantityInput">
                           <mat-label>Quantity</mat-label>
-                          <input type="number" matInput (blur)="getCoasterDecision()"
-                            formControlName="standQuantity2" />
+                          <input type="number" matInput formControlName="standQuantity2" />
                         </mat-form-field>
 
                         <p class="standPriceDisplay" *ngIf="this.firstFormGroup.get('coasterDecision2').value==='Yes'">
@@ -171,9 +170,8 @@
                   <mat-form-field appearance="fill" class="additionalDonation">
                     <mat-label>Additional Donation</mat-label>
 
-                    <input type="number" matInput formControlName="additionalDonation"
-                      (blur)="checkDonation(); checkDontationAdequacy()"
-                      (keyup)="checkDonation(); checkDontationAdequacy()" />
+                    <input type="number" matInput formControlName="additionalDonation" (blur)="checkDontationAdequacy()"
+                      (keyup)="checkDontationAdequacy()" />
                     <mat-error>You cannot ask for a negative donation, silly.</mat-error>
                     <mat-hint>
                       <p>The above coaster donations & any additional donation will go to the
@@ -254,7 +252,7 @@
 
                   <mat-form-field class="paymentShippingInputField">
                     <mat-label>Select an option</mat-label>
-                    <mat-select formControlName="paymentOption2" (selectionChange)="getPaymentPic()">
+                    <mat-select formControlName="paymentOption2">
                       <mat-option value="Venmo">Venmo</mat-option>
                       <mat-option value="ChaseQuickPay">Chase Quick Pay</mat-option>
                       <mat-option value="Zelle">Zelle</mat-option>
@@ -266,7 +264,7 @@
                     <mat-label>{{ this.secondFormGroup.get('paymentOption2').value }} Account</mat-label>
                     <input type="text" matInput formControlName="paymentAccount" placeholder="Ex. your-name-123" />
                   </mat-form-field>
-                  <p *ngIf="paymentOption == 'Other'">
+                  <p *ngIf="this.secondFormGroup.get('paymentOption2').value == 'Other'">
                     Please fill in the field here how you would like to pay.
                     Proceed with the form submission as normal, and I will
                     get back to you if your suggestion can be carried out.
