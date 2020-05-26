@@ -24,6 +24,20 @@ h6 {
   margin: 8px 0;
 }
 
+.priceDisplay {
+  margin: 0px !important;
+  padding-left: 5px;
+}
+
+.coasterQuantity {
+  display: flex;
+}
+
+.standPriceDisplay {
+  padding-left: 5px;
+  margin: auto !important;
+}
+
 p {
   margin: 0;
   white-space: normal;
@@ -113,6 +127,18 @@ svg.material-icons:not(:last-child) {
   height: 381px;
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.mat-stepper-vertical {
+  margin-top: 8px;
+}
+
+.mat-form-field {
+  margin-top: 16px;
+}
+
+.paymentShippingInputField {
+  margin-top: 0px;
 }
 
 .card {
@@ -353,8 +379,29 @@ section {
   width: 120px;
 }
 
+.submissionInfo {
+  font-size: 11px;
+  max-width: 312px;
+  padding-top: 5px;
+}
+
+.mat-button,
+.mat-raised-button {
+  background-color: #3f51b5;
+  color: #fff;
+  margin-right: 10px !important;
+}
+
+.mat-button[disabled] {
+  background-color: gray;
+}
+
 .example-button-row {
   display: table-cell;
+}
+
+.paymentBlock {
+  padding-right: 25px;
 }
 
 .example-button-row button {
@@ -380,6 +427,7 @@ section {
 
 .paymentWrapper {
   width: 65%;
+  display: -webkit-inline-box;
 }
 
 .example-h2 {
@@ -390,17 +438,74 @@ section {
   display: flex;
   align-content: center;
   align-items: center;
-  height: 60px;
+  height: 50px;
+  width: 210px;
 }
 
 .quantityInput {
-  width: 100px;
+  width: 60px;
 }
 
 .checkbox-margin {
   margin: 0 10px;
 }
 
+.mat-checkbox-label {
+  width: 56px;
+}
+
+.optionsDropdown {
+  padding-right: 10px;
+  display: block !important;
+  margin: auto;
+  width: 184px;
+  margin-top: 16px;
+}
+
+.additionalDonation {
+  height: 93px;
+  margin: auto;
+}
+
+.dropdown>a {
+  cursor: pointer
+}
+
+.dropdown ul {
+  list-style: none;
+  padding-left: 1em;
+}
+
+.dropdown mat-icon {
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3 ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.dropdown .dropdown-inner {
+  display: block;
+  max-height: 0px;
+  overflow: hidden;
+  -webkit-transition: all 0.4s ease-in-out;
+  -moz-transition: all 0.4s ease-in-out;
+  -o-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.dropdown-menu {
+  height: auto !important;
+  max-height: 1000px !important;
+
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
+}
 
 
 /* Responsive Styles */
@@ -511,7 +616,7 @@ section {
   }
 
   .card:not(.highlight-card) {
-    height: 16px;
+    /* height: 16px; */
     margin: 8px 0;
   }
 

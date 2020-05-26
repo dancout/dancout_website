@@ -15,6 +15,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
+import { MatStepperModule } from '@angular/material/stepper';
+
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -27,6 +29,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AppRoutingModule,
     MatTabsModule,
     MatFormFieldModule,
+    MatStepperModule,
     MatSelectModule,
     MatInputModule,
     MatCardModule,
@@ -43,4 +46,4 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
