@@ -115,6 +115,11 @@ export class AppComponent implements OnInit {
   state: string;
   zip: number;
   minDonationRequired = 12;
+  seeMessage = "See Price Breakdown";
+  seeMore = false;
+
+  // submission section
+  secondLine = '';
 
   designSelectionPic = '/assets/Dark.jpg';
   paymentPic = 'https://dvh1deh6tagwk.cloudfront.net/money-transfers/images/product/venmologo-supplied-310x194.png?ver=20200404-135714';
@@ -129,9 +134,13 @@ export class AppComponent implements OnInit {
   isLinear = true;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
-  thirdFormGroup: FormGroup;
 
   constructor(private _formBuilder: FormBuilder) { }
+
+  flipSeeMore() {
+    this.seeMore = !this.seeMore;
+    this.seeMessage = this.seeMore ? "See Less" : "See Price Breakdown";
+  }
 
   updateDonationPerQuantity() {
     const totalQuantity = this.firstFormGroup.get('darkQuantity2').value +
@@ -221,8 +230,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.getPaymentPic();
-    this.getCoasterDecision();
-    this.checkDonation();
+    // this.getCoasterDecision(); TODO: check on my children calls
+    // this.checkDonation(); TODO: check on my children calls
     this.expandedElement = this.ELEMENT_DATA[0];
 
     this.firstFormGroup = this._formBuilder.group({
@@ -246,19 +255,9 @@ export class AppComponent implements OnInit {
       city2: ['', Validators.required],
       state2: ['', Validators.required],
       zip2: ['', Validators.required],
+      paymentOption2: ['Venmo', Validators.required],
       paymentAccount: ['', Validators.required],
       additionalComments2: ['']
-    });
-
-    this.thirdFormGroup = this._formBuilder.group({
-      fullName2: ['', Validators.required],
-      addressLine1_2: ['', Validators.required],
-      addressLine2_2: [''],
-      city2: ['', Validators.required],
-      state2: ['', Validators.required],
-      zip2: ['', Validators.required],
-      paymentAccount: ['', Validators.required,
-      ]
     });
 
     this.disableAccordingly();
@@ -270,31 +269,35 @@ export class AppComponent implements OnInit {
     el.scrollIntoView({ behavior: 'smooth' });
   }
 
+  getTotalCoasterDonation() {
+    let myNum = 0;
+    myNum += this.firstFormGroup.get('darkQuantity2').value * 12;
+    myNum += this.firstFormGroup.get('lightQuantity2').value * 12;
+    myNum += this.firstFormGroup.get('popQuantity2').value * 12;
+
+    return myNum;
+  }
+
   getTotalDonation() {
-    return this.donationCost + this.calculateStandCost();
+    return this.getTotalCoasterDonation() + this.calculateStandCost() + this.firstFormGroup.get('additionalDonation').value;
+  }
+
+  getTotalCost() {
+    return this.getTotalDonation() + this.shippingCost + this.calculateWoodCost();
   }
 
   calculateWoodCost() {
     let myCost = 0;
 
-    this.darkChecked ? (myCost += this.darkQuantity * this.woodCost) : myCost;
-    this.lightChecked ? (myCost += this.lightQuantity * this.woodCost) : myCost;
-    this.popChecked ? (myCost += this.popQuantity * this.woodCost) : myCost;
+    this.firstFormGroup.get('darkChecked2').value ? (myCost += this.firstFormGroup.get('darkQuantity2').value * this.woodCost) : myCost;
+    this.firstFormGroup.get('lightChecked2').value ? (myCost += this.firstFormGroup.get('lightQuantity2').value * this.woodCost) : myCost;
+    this.firstFormGroup.get('popChecked2').value ? (myCost += this.firstFormGroup.get('popQuantity2').value * this.woodCost) : myCost;
 
     return Number(parseFloat(myCost.toString()).toFixed(2));
   }
 
   calculateStandCost() {
-    let myCost = 0;
-    this.coasterDecision === 'Yes'
-      ? (myCost += this.standCost * this.standQuantity)
-      : myCost;
-
-    // this.coasterDecision === 'Yes' && this.ELEMENT_DATA[2].price
-    //   ? (this.ELEMENT_DATA[2].price = '$' + myCost)
-    //   : (this.ELEMENT_DATA[2].price = '$7');
-
-    return myCost;
+    return this.firstFormGroup.get('standQuantity2').value * 7;
   }
 
   calculateCost() {
@@ -438,82 +441,65 @@ export class AppComponent implements OnInit {
     this.ELEMENT_DATA[4].item = 'Payment Info (' + this.paymentOption + ')';
   }
 
-  checkAddressValidity() {
-    return (
-      this.addressLine1 &&
-      this.city &&
-      this.state &&
-      this.firstName &&
-      this.lastName &&
-      this.zip &&
-      this.venmoAccount &&
-      !this.donationTooLow
-    );
-  }
 
-  checkValidity() {
-    const ready = this.checkAddressValidity();
-    if (ready) {
-      this.createOrderButton();
-    }
 
-    return ready;
-  }
 
   createDesignSelectionText() {
     let myText = '';
-    this.darkChecked
-      ? (myText += 'Dark Coasters:  ' + this.darkQuantity + ' set(s).%0d%0a')
+    this.firstFormGroup.get('darkChecked2').value
+      ? (myText += 'Dark Coasters:  ' + this.firstFormGroup.get('darkQuantity2').value + ' set(s).%0d%0a')
       : myText;
-    this.lightChecked
-      ? (myText += 'Light Coasters:  ' + this.lightQuantity + ' set(s).%0d%0a')
+    this.firstFormGroup.get('lightChecked2').value
+      ? (myText += 'Light Coasters:  ' + this.firstFormGroup.get('lightQuantity2').value + ' set(s).%0d%0a')
       : myText;
-    this.popChecked
-      ? (myText += 'Pop Coasters:  ' + this.popQuantity + ' set(s).%0d%0a')
+    this.firstFormGroup.get('popChecked2').value
+      ? (myText += 'Pop Coasters:  ' + this.firstFormGroup.get('popQuantity2').value + ' set(s).%0d%0a')
       : myText;
     return myText;
   }
 
   createStandText() {
     let myText = '';
-    this.coasterDecision === 'Yes'
+    this.firstFormGroup.get('coasterDecision2').value === 'Yes'
       ? (myText +=
         'Coaster Stand(s):  ' +
-        this.coasterDecision +
+        this.firstFormGroup.get('coasterDecision2').value +
         ',  ' +
-        this.standQuantity +
+        this.firstFormGroup.get('standQuantity2').value +
         ' sets.')
-      : (myText += 'Coaster Stand(s):  ' + this.coasterDecision);
+      : (myText += 'Coaster Stand(s):  ' + this.firstFormGroup.get('coasterDecision2').value);
     myText += '%0d%0a';
 
     return myText;
   }
 
-  createOrderButton() {
-    let el = document.getElementById('submitButton');
+  sendSubmissionEmail() {
+    const subjectLine = "Charity Coaster Request";
+    let bodyContent = '';
+
     let secondLine = '';
-    this.addressLine2 ? (secondLine = this.addressLine2 + '%0d%0a') : '';
+    this.secondFormGroup.get('addressLine2_2').value ? (secondLine = this.secondFormGroup.get('addressLine2_2').value + '%0d%0a') : '';
     let addComm = '';
-    this.additionalComments
+    this.secondFormGroup.get('additionalComments2').value
       ? (addComm =
-        'Additional Comments: ' + this.additionalComments + '%0d%0a%0d%0a')
+        'Additional Comments: ' + this.secondFormGroup.get('additionalComments2').value + '%0d%0a%0d%0a')
       : '';
-    el.innerHTML =
-      '<a href="mailto:dancout@umich.edu?subject=Charity Coaster Request&body=Charity Coaster Order Details:%0d%0a%0d%0aName: ' +
-      this.firstName +
-      ' ' +
-      this.lastName +
+
+
+    bodyContent =
+      'Charity Coaster Order Details:%0d%0a%0d%0aName: ' +
+      this.secondFormGroup.get('fullName2').value +
       '%0d%0a' +
       '%0d%0aAddress: ' +
       '%0d%0a' +
-      this.addressLine1 +
+      this.secondFormGroup.get('addressLine1_2').value +
       '%0d%0a' +
       secondLine +
-      this.city +
+      this.secondFormGroup.get('city2').value +
       '%0d%0a' +
-      this.state +
+      this.secondFormGroup.get('state2').value +
       '%0d%0a' +
-      this.zip +
+      this.secondFormGroup.get('zip2').value +
       '%0d%0a' +
       '%0d%0a' +
       this.createDesignSelectionText() +
@@ -521,15 +507,23 @@ export class AppComponent implements OnInit {
       'Total Charity Donation: $' +
       this.getTotalDonation() +
       '%0d%0a' +
-      this.paymentOption +
+      this.secondFormGroup.get('paymentOption2').value +
       ' Account: ' +
-      this.venmoAccount +
+      this.secondFormGroup.get('paymentAccount').value +
       '%0d%0a%0d%0a' +
       addComm +
       'Total Cost: $' +
-      this.totalCost +
-      '%0d%0a%0d%0a">Order Now!</a>';
+      this.getTotalCost() +
+      '%0d%0a%0d%0a';
+
+
+
+    const mail = 'mailto:dancout@umich.edu?subject=' + subjectLine +
+      '&body=' + bodyContent;
+    window.open(mail);
+
   }
+
 }
 
 export interface PeriodicElement {

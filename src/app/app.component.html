@@ -65,7 +65,7 @@
                     <a href="https://www.amazon.com/dp/B01LZFAT9S/ref=cm_sw_em_r_mt_dp_U_i.FTEb6CANTB2"
                       target="_blank">padauk</a>. It will be treated as first come, first served.
                   </p>
-                  <mat-form-field style="padding-right: 10px;">
+                  <mat-form-field class="optionsDropdown">
                     <mat-label>View Options</mat-label>
                     <mat-select formControlName="designSelection2" (selectionChange)="getDesignPic($event)">
                       <mat-option value="Dark">4 Dark w/ Light Accents</mat-option>
@@ -73,6 +73,33 @@
                       <mat-option value="Pop">4 Pop of Color</mat-option>
                     </mat-select>
                   </mat-form-field>
+
+                  <!-- Price Breakdown -->
+                  <div class="dropdown" style="display: contents;">
+                    <a (click)="flipSeeMore()">{{seeMessage}}<mat-icon [class.rotate-180]="seeMore">keyboard_arrow_down
+                      </mat-icon> </a>
+                    <div class="dropdown-inner" [class.dropdown-menu]="seeMore">
+                      <!-- Wood Cost Section -->
+                      <div>
+                        <p>
+                          I'm using
+                          <a href="https://www.amazon.com/gp/product/B07DYBMFWJ/ref=ppx_yo_dt_b_asin_title_o01_s00?ie=UTF8&psc=1"
+                            target="_blank">Black Walnut</a>
+                          for the dark colors, and
+                          <a target="_blank"
+                            href="https://www.amazon.com/gp/product/B07QT8RP85/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1">Maple</a>
+                          for the light colors.
+                        </p>
+
+                        <p>Overall, it is about $4.78 for the materials of the wood and polish for a single coaster set.
+                        </p>
+                        <p>Each coaster set will come along with a $12 donation to <a target="_blank"
+                            href="https://www.nokidhungry.org/coronavirus">No Kid Hungry</a>, for a total of $16.78 per
+                          coaster set. </p>
+                        <p>Each coaster stand will be an additional $7 donated to No Kid Hungry.</p>
+                      </div>
+                    </div>
+                  </div>
 
                   <!-- <mat-card> -->
                   <!-- <mat-card-content> -->
@@ -113,19 +140,6 @@
                   </section>
                   <!-- Coaster Stand Section -->
                   <div class="expandDescription example-element-description">
-                    <p>
-                      For an additional $7, you can purchase a stand for your
-                      coaster set.
-                    </p>
-
-                    <p>
-                      I will be building these stands using scrapwood, at no
-                      additional charge for materials.
-                    </p>
-                    <p>
-                      This $7 will be an additional COVID Relief Donation,
-                      added onto the donation below.
-                    </p>
                     <div class="imgContainer">
                       <img src='../assets/coasterStand.jpg' />
                     </div>
@@ -135,44 +149,39 @@
                       <mat-radio-button value="Yes">Yes, please!</mat-radio-button>
                       <mat-radio-button value="No">No, thank you.</mat-radio-button>
                     </mat-radio-group>
-                    <mat-form-field appearance="fill" class="quantityInput">
-                      <mat-label>Quantity</mat-label>
-                      <input type="number" matInput (blur)="getCoasterDecision()" formControlName="standQuantity2" />
 
-                    </mat-form-field>
+                    <section class="checkbox-section" style="justify-content: center;">
+                      <div class="coasterQuantity">
+                        <mat-form-field appearance="fill" class="quantityInput">
+                          <mat-label>Quantity</mat-label>
+                          <input type="number" matInput (blur)="getCoasterDecision()"
+                            formControlName="standQuantity2" />
+                        </mat-form-field>
 
-                    <p class="priceDisplay" *ngIf="this.firstFormGroup.get('coasterDecision2').value==='Yes'">
-                      ${{this.firstFormGroup.get('standQuantity2').value * 7}}</p>
+                        <p class="standPriceDisplay" *ngIf="this.firstFormGroup.get('coasterDecision2').value==='Yes'">
+                          ${{this.firstFormGroup.get('standQuantity2').value * 7}}
+                        </p>
+
+                      </div>
+                    </section>
                   </div>
 
 
                   <!-- COVID Relief Section -->
-                  <div class="expandDescription example-element-description">
-                    <p>
-                      Your donation will go to the
-                      <a target="_blank" href="https://www.nokidhungry.org/coronavirus">No Kid Hungry</a>
-                      organization.
-                    </p>
+                  <mat-form-field appearance="fill" class="additionalDonation">
+                    <mat-label>Additional Donation</mat-label>
 
-                    <mat-form-field appearance="fill">
-                      <mat-label>Additional Donation</mat-label>
+                    <input type="number" matInput formControlName="additionalDonation"
+                      (blur)="checkDonation(); checkDontationAdequacy()"
+                      (keyup)="checkDonation(); checkDontationAdequacy()" />
+                    <mat-error>You cannot ask for a negative donation, silly.</mat-error>
+                    <mat-hint>
+                      <p>The above coaster donations & any additional donation will go to the
+                        <a target="_blank" href="https://www.nokidhungry.org/coronavirus">No Kid Hungry</a>
+                        organization. </p>
+                    </mat-hint>
+                  </mat-form-field>
 
-                      <input type="number" matInput formControlName="additionalDonation"
-                        (blur)="checkDonation(); checkDontationAdequacy()"
-                        (keyup)="checkDonation(); checkDontationAdequacy()" />
-                      <mat-error>You cannot ask for a negative donation, silly.</mat-error>
-                    </mat-form-field>
-                    <div class="imgContainer">
-                      <img
-                        src='https://jojebar.com/wp-content/uploads/2018/04/Screen-Shot-2018-04-05-at-1.15.46-PM.png' />
-                    </div>
-                    <div *ngIf="donationTooLow">
-                      <p style="color: red;">
-                        Please give a donation of at least $12 per coaster
-                        set.
-                      </p>
-                    </div>
-                  </div>
                   <!-- </mat-card-content> -->
 
 
@@ -184,7 +193,7 @@
 
                 <p *ngIf="this.firstFormGroup.invalid" style="color: red;">Please check the form for errors.</p>
                 <div>
-                  <button mat-button matStepperNext (click)="scroll('orderForm')"
+                  <button style="float:right" mat-button matStepperNext (click)="scroll('orderForm')"
                     [disabled]="this.firstFormGroup.invalid">Next</button>
                 </div>
               </form>
@@ -205,37 +214,37 @@
                       USPS Flat Rate Shipping</a>.
                   </p>
 
-                  <mat-form-field appearance="fill">
+                  <mat-form-field appearance="fill" class="paymentShippingInputField">
                     <mat-label>Full Name</mat-label>
                     <input type="text" matInput formControlName="fullName2" placeholder="Ex. Dan Couturier" />
                     <mat-error>This field is required.</mat-error>
                   </mat-form-field>
 
-                  <mat-form-field appearance="fill">
+                  <mat-form-field appearance="fill" class="paymentShippingInputField">
                     <mat-label>Address Line 1</mat-label>
                     <input type="text" matInput formControlName="addressLine1_2"
                       placeholder="Ex. 100 Mountainville St" />
                     <mat-error>This field is required.</mat-error>
                   </mat-form-field>
 
-                  <mat-form-field appearance="fill">
+                  <mat-form-field appearance="fill" class="paymentShippingInputField">
                     <mat-label>Address Line 2</mat-label>
                     <input type="text" matInput formControlName="addressLine2_2" placeholder="Ex. Apt 204" />
                   </mat-form-field>
 
-                  <mat-form-field appearance="fill">
+                  <mat-form-field appearance="fill" class="paymentShippingInputField">
                     <mat-label>City</mat-label>
                     <input type="text" matInput formControlName="city2" placeholder="Ex. Ann Arbor" />
                     <mat-error>This field is required.</mat-error>
                   </mat-form-field>
 
-                  <mat-form-field appearance="fill">
+                  <mat-form-field appearance="fill" class="paymentShippingInputField">
                     <mat-label>State</mat-label>
                     <input type="text" matInput formControlName="state2" placeholder="Ex. MI" />
                     <mat-error>This field is required.</mat-error>
                   </mat-form-field>
 
-                  <mat-form-field appearance="fill">
+                  <mat-form-field appearance="fill" class="paymentShippingInputField">
                     <mat-label>Zip</mat-label>
                     <input type="number" matInput formControlName="zip2" placeholder="Ex. 48187" />
                     <mat-error>This field is required.</mat-error>
@@ -243,9 +252,9 @@
 
                   <!-- Payment Information Section -->
 
-                  <mat-form-field>
+                  <mat-form-field class="paymentShippingInputField">
                     <mat-label>Select an option</mat-label>
-                    <mat-select [(value)]="paymentOption" (selectionChange)="getPaymentPic()">
+                    <mat-select formControlName="paymentOption2" (selectionChange)="getPaymentPic()">
                       <mat-option value="Venmo">Venmo</mat-option>
                       <mat-option value="ChaseQuickPay">Chase Quick Pay</mat-option>
                       <mat-option value="Zelle">Zelle</mat-option>
@@ -253,8 +262,8 @@
                     </mat-select>
                   </mat-form-field>
 
-                  <mat-form-field appearance="fill">
-                    <mat-label>{{ this.paymentOption }} Account</mat-label>
+                  <mat-form-field appearance="fill" class="paymentShippingInputField">
+                    <mat-label>{{ this.secondFormGroup.get('paymentOption2').value }} Account</mat-label>
                     <input type="text" matInput formControlName="paymentAccount" placeholder="Ex. your-name-123" />
                   </mat-form-field>
                   <p *ngIf="paymentOption == 'Other'">
@@ -265,123 +274,98 @@
                   </p>
                   <!-- Additional Comments Section -->
 
-                  <mat-form-field appearance="fill">
+                  <mat-form-field appearance="fill" class="paymentShippingInputField">
                     <mat-label>Additional Comments</mat-label>
                     <input type="text" matInput formControlName="additionalComments2"
-                      placeholder="I think this is awesome!" />
+                      placeholder="This is a gift for someone." />
+                    <mat-hint> Please place any additional comments here.
+                    </mat-hint>
+
                   </mat-form-field>
-                  <p>
-                    Please place any additional comments here.
-                  </p>
-
-
                 </div>
 
                 <div>
                   <button mat-button matStepperPrevious>Back</button>
-                  <button mat-button matStepperNext (click)="scroll('orderForm')"
+                  <button style="float:right" mat-button matStepperNext (click)="scroll('orderForm')"
                     [disabled]="this.secondFormGroup.invalid">Next</button>
                 </div>
               </form>
             </mat-step>
-            <mat-step [stepControl]="thirdFormGroup">
-              <form [formGroup]="thirdFormGroup">
-                <ng-template matStepLabel>Order Summary</ng-template>
+            <mat-step>
+              <ng-template matStepLabel>Order Summary</ng-template>
 
-                <!-- Order Summary Section -->
-                <div class="expandDescription example-element-description">
-                  <p>
-                    Your donation will help feed a child, and you'll get a
-                    nifty coaster set out of it!
-                    <br />
-                    <br />
-                    Bandit says THANK YOU!
-                  </p>
-                  <h3>Order Details</h3>
+              <!-- Order Summary Section -->
+              <div class="expandDescription example-element-description">
+                <h3>Order Details</h3>
 
-                  <p *ngIf="darkChecked">
-                    Dark Option: {{ darkQuantity }} set(s)
-                  </p>
-                  <p *ngIf="lightChecked">
-                    Light Option: {{ lightQuantity }} set(s)
-                  </p>
-                  <p *ngIf="popChecked">
-                    Pop Option: {{ popQuantity }} set(s)
-                  </p>
-                  <p>Total Material Costs: ${{ calculateWoodCost() }}</p>
-                  <p>Coaster Stand(s): {{ coasterDecision }}</p>
-                  <p *ngIf="coasterDecision == 'Yes'">
-                    Stand Quantity: {{ this.standQuantity }}
-                  </p>
-                  <p *ngIf="donationTooLow" style="color: red;">
-                    You must provide a donation of at least $12 per coaster
-                    set.
-                  </p>
-                  <p *ngIf="!donationTooLow">
-                    Total Donation Amount (Donation + Stand Costs): ${{
+                <p *ngIf="this.firstFormGroup.get('darkChecked2').value">
+                  Dark Option: {{ this.firstFormGroup.get('darkQuantity2').value }} set(s)
+                </p>
+                <p *ngIf="this.firstFormGroup.get('lightChecked2').value">
+                  Light Option: {{ this.firstFormGroup.get('lightQuantity2').value }} set(s)
+                </p>
+                <p *ngIf="this.firstFormGroup.get('popChecked2').value">
+                  Pop Option: {{ this.firstFormGroup.get('popQuantity2').value }} set(s)
+                </p>
+                <p>Total Material Costs: ${{ calculateWoodCost() }}</p>
+                <p>Coaster Stand(s): {{ this.firstFormGroup.get('coasterDecision2').value }}</p>
+                <p *ngIf="this.firstFormGroup.get('coasterDecision2').value == 'Yes'">
+                  Stand Quantity: {{ this.firstFormGroup.get('standQuantity2').value }}
+                </p>
+
+                <p>
+                  Total Donation Amount (Coaster Donation + Stand Costs + Additional Donation): ${{
                     getTotalDonation()
                   }}
-                  </p>
-                  <p>Shipping Costs: $9</p>
-                  <p *ngIf="!venmoAccount" style="color: red;">
-                    You must provide a payment account
-                  </p>
-                  <p *ngIf="venmoAccount">
-                    {{ this.paymentOption }} Account: {{ venmoAccount }}
-                  </p>
+                </p>
+                <p>Shipping Costs: $9</p>
 
-                  <h3>Mailing Address</h3>
-                  <p *ngIf="firstName && lastName">
-                    {{ firstName }} {{ lastName }}
-                  </p>
-                  <p *ngIf="addressLine1">{{ addressLine1 }}</p>
-                  <p *ngIf="
-                    !addressLine1 || !city || !state || !state || !zip
-                  " style="color: red;">
-                    You must provide complete mailing address information
-                  </p>
-                  <p *ngIf="addressLine2">{{ addressLine2 }}</p>
-                  <p *ngIf="city">{{ city }}</p>
-                  <p *ngIf="state">{{ state }}</p>
-                  <p *ngIf="zip">{{ zip }}</p>
-                  <br *ngIf="additionalComments" />
-                  <p *ngIf="additionalComments">
-                    <em>Additional Comments: </em>
-                    {{ this.additionalComments }}
-                  </p>
-                  <strong>
-                    <p>
-                      Total Cost:
-                      {{ ELEMENT_DATA[7].price }}
-                    </p>
-                  </strong>
-                  <div class="card-container">
-                    <div *ngIf="checkAddressValidity()" class="card card-small">
-                      <span id="submitButton"><a></a></span>
-                    </div>
-                  </div>
-                  <p *ngIf="checkValidity()">
-                    This will open your mail app to request your order to
-                    me. Once you have submitted your email, you may safely
-                    exit this page.
-                  </p>
+                <p>
+                  {{ this.secondFormGroup.get('paymentOption2').value }} Account:
+                  {{ this.secondFormGroup.get('paymentAccount').value }}
+                </p>
 
-                  <div style="color: red;">
-                    <div *ngIf="!checkValidity()" class="card card-small" (click)="scroll('orderForm')">
-                      <span>Complete form first</span>
-                    </div>
-                  </div>
+                <h3>Mailing Address</h3>
+                <p>
+                  {{ this.secondFormGroup.get('fullName2').value }}
+                </p>
+                <p>{{ this.secondFormGroup.get('addressLine1_2').value }}</p>
+
+                <p *ngIf="this.secondFormGroup.get('addressLine2_2').value">
+                  {{ this.secondFormGroup.get('addressLine2_2').value }}</p>
+                <p>{{ this.secondFormGroup.get('city2').value }}</p>
+                <p>{{ this.secondFormGroup.get('state2').value }}</p>
+                <p>{{ this.secondFormGroup.get('zip2').value }}</p>
+                <br *ngIf="this.secondFormGroup.get('additionalComments2').value" />
+                <p *ngIf="this.secondFormGroup.get('additionalComments2').value">
+                  <em>Additional Comments: </em>
+                  {{ this.secondFormGroup.get('additionalComments2').value }}
+                </p>
+                <strong>
+                  <p>
+                    Total Cost: $
+                    {{ this.getTotalCost() }}
+                  </p>
+                </strong>
+                <div class="card-container">
+                  <button class="card" mat-raised-button (click)="sendSubmissionEmail()"
+                    matTooltip="Info about the action">Order Now!
+                  </button>
+
+
+
                 </div>
+                <p class="submissionInfo">
+                  This will open your mail app to request your order to
+                  me. Once you have submitted your email, you may safely
+                  exit this page.
+                </p>
+              </div>
 
-              </form>
               <div>
                 <button mat-button matStepperPrevious>Back</button>
-                <button mat-button (click)="stepper.reset()">Reset</button>
               </div>
             </mat-step>
-
-
-
 
           </mat-vertical-stepper>
 
@@ -559,47 +543,6 @@
 
 
   </mat-tab-group>
-
-  <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
-    {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
-  </button>
-
-  <div class="tableClass">
-    <mat-vertical-stepper [linear]="isLinear" #stepper>
-      <mat-step [stepControl]="firstFormGroup">
-        <form [formGroup]="firstFormGroup">
-          <ng-template matStepLabel>Design Selection</ng-template>
-
-          <div>
-            <button mat-button matStepperNext>Next</button>
-          </div>
-        </form>
-      </mat-step>
-      <mat-step [stepControl]="secondFormGroup">
-        <form [formGroup]="secondFormGroup">
-          <ng-template matStepLabel>Fill out your address</ng-template>
-
-          <div>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
-          </div>
-        </form>
-      </mat-step>
-      <mat-step>
-        <ng-template matStepLabel>Done</ng-template>
-        <p>You are now done.</p>
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button (click)="stepper.reset()">Reset</button>
-        </div>
-      </mat-step>
-    </mat-vertical-stepper>
-
-
-  </div>
-
-
-
 
 
   <svg id="clouds" alt="Gray Clouds Background" xmlns="http://www.w3.org/2000/svg" width="2611.084" height="485.677"

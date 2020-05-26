@@ -19,8 +19,8 @@ tr.example-element-row:not(.example-expanded-row):active {
 }
 
 .example-element-detail {
-  overflow: hidden;
-  display: inherit;
+  /* overflow: hidden; */
+  /* display: inherit; */
 }
 
 .example-element-diagram {
@@ -49,13 +49,16 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .expandDescription {
   padding-left: 15px;
+  display: grid;
+  justify-content: center;
+  justify-items: center;
 }
 
 
 .example-radio-group {
   display: flex;
   flex-direction: column;
-  margin: 15px 0;
+  margin-top: 15px;
 }
 
 .example-radio-button {
