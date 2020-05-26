@@ -301,7 +301,7 @@ export class AppComponent implements OnInit {
 
     const mail = 'mailto:dancout@umich.edu?subject=' + subjectLine +
       '&body=' + bodyContent;
-    window.open(mail);
+    window.location.href = mail;
 
   }
 
