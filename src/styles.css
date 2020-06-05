@@ -462,6 +462,11 @@ section {
   margin-top: 16px;
 }
 
+.warningInfo {
+  width: 92%;
+  max-width: 450px;
+}
+
 .additionalDonation {
   height: 93px;
   margin: auto;

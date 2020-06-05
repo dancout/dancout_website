@@ -55,6 +55,14 @@
                 <!-- Desing Selection Section -->
                 <div
                   class="tableClass expandDescription example-element-description example-element-detail detailWrapper">
+
+                  <!-- TODO: Remove after vacation -->
+                  <div class="warningInfo">
+                    <p><strong>Please Note:</strong> I will be getting married on June 13th, and going on vacation. I am
+                      happy to continue accepting orders, but I will not be able to act on them until late July. Thank
+                      you for understanding!</p>
+                  </div>
+
                   <div class="imgContainer">
                     <img src='{{designSelectionPic}}' />
                   </div>
@@ -346,6 +354,14 @@
                     {{ this.getTotalCost() }}
                   </p>
                 </strong>
+
+                <!-- TODO: Remove after vacation -->
+                <div class="warningInfo">
+                  <p><strong>Please Note:</strong> I will be getting married on June 13th, and going on vacation. I am
+                    happy to continue accepting orders, but I will not be able to act on them until late July. Thank
+                    you for understanding!</p>
+                </div>
+
                 <div class="card-container">
                   <button class="card" mat-raised-button (click)="sendSubmissionEmail()"
                     matTooltip="Info about the action">Order Now!
