@@ -448,6 +448,13 @@ section {
   width: 210px;
 }
 
+.lomavoText {
+  text-align: center;
+  max-width: 1000px;
+  margin: auto !important;
+
+}
+
 .quantityInput {
   width: 60px;
 }
