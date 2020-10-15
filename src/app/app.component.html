@@ -7,12 +7,19 @@
         <div class="filler"></div>
         <div class="card-container">
           <div class="card card-small" style="margin: 0px;" (click)="scroll('orderForm')">
-            <span>Request a set!</span>
+            <span>See Details</span>
           </div>
         </div>
       </div>
 
       <div class="covidContent">
+        
+        
+        <div class="warningInfo, largeWarning">
+          <p><strong>We were able to raise $503 towards No Kid Hungry! Thank you everyone who paticipated!</strong></p>
+          <p><i>Unfortunately, I am not accepting any new orders at this time.</i></p>
+        </div>
+        
         <!-- What's Happening -->
         <h2 style="text-align: center;" class="whatsHappening">
           What's Happening
@@ -42,10 +49,11 @@
           </div>
         </div>
 
+
         <!-- Ordering Form -->
         <h2 id="orderForm" style="text-align: center;">Order Form</h2>
-        <p>Tap each section to view details</p>
-        <div class="tableClass">
+        <p><strong>Unfortunately, we are no longer accepting new orders.</strong></p>
+        <div class="tableClass, div-disabled">
           <!-- TODO: here's the new stuff -->
           <mat-vertical-stepper [linear]="isLinear" #stepper>
             <mat-step [stepControl]="firstFormGroup">
@@ -54,14 +62,7 @@
 
                 <!-- Desing Selection Section -->
                 <div
-                  class="tableClass expandDescription example-element-description example-element-detail detailWrapper">
-
-                  <!-- TODO: Remove after vacation -->
-                  <div class="warningInfo">
-                    <p><strong>Please Note:</strong> I will be getting married on June 13th, and going on vacation. I am
-                      happy to continue accepting orders, but I will not be able to act on them until late July. Thank
-                      you for understanding!</p>
-                  </div>
+                  class="tableClass expandDescription example-element-description example-element-detail detailWrapper">               
 
                   <div class="imgContainer">
                     <img src='{{designSelectionPic}}' />
@@ -354,13 +355,6 @@
                     {{ this.getTotalCost() }}
                   </p>
                 </strong>
-
-                <!-- TODO: Remove after vacation -->
-                <div class="warningInfo">
-                  <p><strong>Please Note:</strong> I will be getting married on June 13th, and going on vacation. I am
-                    happy to continue accepting orders, but I will not be able to act on them until late July. Thank
-                    you for understanding!</p>
-                </div>
 
                 <div class="card-container">
                   <button class="card" mat-raised-button (click)="sendSubmissionEmail()"

@@ -47,6 +47,12 @@ p {
   flex: 1;
 }
 
+.div-disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  background: #CCC;
+}
+
 .toolbar {
   position: absolute;
   top: 0;
@@ -465,6 +471,11 @@ section {
 .warningInfo {
   width: 92%;
   max-width: 450px;
+}
+
+.largeWarning {
+  padding-top: 10px;
+  font-size: medium;
 }
 
 .additionalDonation {
