@@ -47,6 +47,12 @@ p {
   flex: 1;
 }
 
+.div-disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  background: #CCC;
+}
+
 .toolbar {
   position: absolute;
   top: 0;
@@ -442,6 +448,13 @@ section {
   width: 210px;
 }
 
+.lomavoText {
+  text-align: center;
+  max-width: 1000px;
+  margin: auto !important;
+
+}
+
 .quantityInput {
   width: 60px;
 }
@@ -465,6 +478,11 @@ section {
 .warningInfo {
   width: 92%;
   max-width: 450px;
+}
+
+.largeWarning {
+  padding-top: 10px;
+  font-size: medium;
 }
 
 .additionalDonation {
@@ -547,6 +565,10 @@ section {
 
   .shrinkWandriSite {
     height: 185px;
+  }
+
+  .shrinkLomavoSite {
+    height: 180px;
   }
 
   .mat-tab-label {

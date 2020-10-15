@@ -7,12 +7,19 @@
         <div class="filler"></div>
         <div class="card-container">
           <div class="card card-small" style="margin: 0px;" (click)="scroll('orderForm')">
-            <span>Request a set!</span>
+            <span>See Details</span>
           </div>
         </div>
       </div>
 
       <div class="covidContent">
+        
+        
+        <div class="warningInfo, largeWarning">
+          <p><strong>We were able to raise $503 towards No Kid Hungry! Thank you everyone who paticipated!</strong></p>
+          <p><i>Unfortunately, I am not accepting any new orders at this time.</i></p>
+        </div>
+        
         <!-- What's Happening -->
         <h2 style="text-align: center;" class="whatsHappening">
           What's Happening
@@ -42,10 +49,11 @@
           </div>
         </div>
 
+
         <!-- Ordering Form -->
         <h2 id="orderForm" style="text-align: center;">Order Form</h2>
-        <p>Tap each section to view details</p>
-        <div class="tableClass">
+        <p><strong>Unfortunately, we are no longer accepting new orders.</strong></p>
+        <div class="tableClass, div-disabled">
           <!-- TODO: here's the new stuff -->
           <mat-vertical-stepper [linear]="isLinear" #stepper>
             <mat-step [stepControl]="firstFormGroup">
@@ -54,14 +62,7 @@
 
                 <!-- Desing Selection Section -->
                 <div
-                  class="tableClass expandDescription example-element-description example-element-detail detailWrapper">
-
-                  <!-- TODO: Remove after vacation -->
-                  <div class="warningInfo">
-                    <p><strong>Please Note:</strong> I will be getting married on June 13th, and going on vacation. I am
-                      happy to continue accepting orders, but I will not be able to act on them until late July. Thank
-                      you for understanding!</p>
-                  </div>
+                  class="tableClass expandDescription example-element-description example-element-detail detailWrapper">               
 
                   <div class="imgContainer">
                     <img src='{{designSelectionPic}}' />
@@ -355,13 +356,6 @@
                   </p>
                 </strong>
 
-                <!-- TODO: Remove after vacation -->
-                <div class="warningInfo">
-                  <p><strong>Please Note:</strong> I will be getting married on June 13th, and going on vacation. I am
-                    happy to continue accepting orders, but I will not be able to act on them until late July. Thank
-                    you for understanding!</p>
-                </div>
-
                 <div class="card-container">
                   <button class="card" mat-raised-button (click)="sendSubmissionEmail()"
                     matTooltip="Info about the action">Order Now!
@@ -391,6 +385,33 @@
       <router-outlet></router-outlet>
     </mat-tab>
 
+    <mat-tab label="Lomavo">
+      <div class="covidContent">
+        <h2 style="text-align: center;">Alpha Site Released!</h2>
+        <p class="lomavoText">
+          Lomavo is a visual representation of parallel workflows. It can act as a task delegation tool aimed at improving project planning. The target audience is software development teams, but can be expanded to any collaborative project. The multi-dimensional organization allows a user to identify which areas are ready to receive attention more quickly. The colored tiers can easily give key stakeholders (management) insights into completion status.
+        </p>
+        <br>
+        <p class="lomavoText" style="padding-bottom: 10px;">
+          In other words, if you'd like to plan a complex project in a short period of time, Lomavo can help!
+        </p>
+  
+        <div class="projectContent">
+          <img src="../assets/lomavo.gif" class="projectPic shrinkLomavoSite" />
+        </div>
+
+        <p class="lomavoText" style="padding-top: 10px; padding-bottom: 10px;">
+          Here is a <a href="https://lomavo.web.app/#page/v4cLhTanURxJH0ZIJz33" target="_blank">demo page</a>, where the "project" is how to get dressed. It's important to put on your socks before your shoes!
+        </p>
+
+        <p class="lomavoText">There is a functional site live at <a href="Lomavo.com">Lomavo.com</a>! You can expect to see many improvements as time goes on, but we can consider ourselves in Alpha Testing at this point.</p> 
+        
+        <p class="lomavoText" style="padding-top: 10px;">Please send any and all feedback (issues, suggestions, well-wishes) to <a title="Contact" href="mailto:dan@lomavo.com?subject=Lomavo Feedback" target="_blank"
+        rel="noopener">dan@lomavo.com</a>. </p>
+       
+      </div>
+    </mat-tab>
+
     <mat-tab label="Other Projects">
       <div class="covidContent">
         <h2 style="text-align: center;">Woodworking</h2>
@@ -399,13 +420,16 @@
           been a very fun experience that's now proving useful.
         </p>
 
+
+
         <div class="projectContent">
-          <img src="../assets/dogFence.gif" class="projectPic" />
-          <div class="projectText">
+          <div class="couchWrapper">
+            <img src="../assets/dogFence.gif" class="projectPic shrinkImg" style="padding: 10px;" />
+          <img src="../assets/full_fence.jpg" class="projectPic shrinkImg" style="padding: 10px;" />          <div class="projectText">
             <p style="padding-top: 10px;">
-              I built [well, currently building] a collapsing/mobile dog fence
-              for Bandit.
+              I built a collapsing/mobile dog fence for Bandit.
             </p>
+          </div>
           </div>
         </div>
 
@@ -533,8 +557,36 @@
               </li>
               <li>She is the better half of <em>Dancy</em>.</li>
               <li>
-                COVID19 has forced us to postpone our wedding ceremony, but
+                COVID19 has forced us to postpone our wedding celebration, but
                 <strong>2020 will be our year</strong>.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="projectContent">
+          <img src="../assets/wedding.JPG" class="projectPic" />
+          <div class="projectText">
+            <ul style="padding-top: 10px;">
+              <li>
+               We were able to get legally married on June 13th!
+              </li>
+              <li>
+                We had a very intimate ceremony with our parents, and a dear friend was able to officiate our wedding.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="projectContent">
+          <img src="../assets/bandit_wedding.jpg" class="projectPic" />
+          <div class="projectText">
+            <ul style="padding-top: 10px;">
+              <li>
+               Bandit was very happy this day, too!
+              </li>
+              <li>
+                "My Humans Are Getting Married!"
               </li>
             </ul>
           </div>
